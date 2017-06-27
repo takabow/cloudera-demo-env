@@ -12,7 +12,7 @@ This is for Demo purposes only. Don't use for production.
 ## Requirement
 
 - Cloudera Director 2.4
-    - The simplest way to install Cloudera Director on Mac is here -> https://github.com/chezou/homebrew-cloudera 
+    - The simplest way to install Cloudera Director on Mac is here -> https://github.com/chezou/homebrew-cloudera
 - AWS Environment 
     - Setting up a VPC for Cloudera Director
     - Creating a security group for Cloudera Director
@@ -30,7 +30,7 @@ You need to install Cloudera Director Server/Client on your localhost and access
 - KEY_PAIR
 - AWS_AMI
 
-3. Set `AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY` and run cloudera-director command. It takes about 30 minutes.
+3. Set `AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY` and run `cloudera-director bootstrap-remote` command. It takes about 30 minutes.
 
 ```
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
@@ -42,6 +42,14 @@ $ cloudera-director bootstrap-remote cluster-cdsw-secure.conf --lp.remote.userna
 Only one cluster can be creted on the same network same time using this script.
 Because `bootstrap-configure-network.sh` script using `nmap` tricks to identify the CM (KDC) node during the bootstrapping phase.
 For the same reason, using this script in a large network (e.g. /16) is bad idea.
+
+4. `./get_cluster_ip.sh` provides the connection information to the environment. See also the following Example section.
+
+5. To terminate this environment, run `cloudera-director terminate-remote` command.
+
+```
+$ cloudera-director terminate-remote $CLUSTER_CONF --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+```
 
 ## Example
 ```
