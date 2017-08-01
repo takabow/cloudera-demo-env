@@ -69,20 +69,31 @@ APPLICATION_BLOCK_DEVICE="$(grep '^/dev' /etc/fstab | cut -f1 -d' ' | sort | hea
 # $(grep '^/dev' /etc/fstab | cut -f1 -d' ' | sort | head -1) command gets "/dev/xvdf"
 # $(grep '^/dev' /etc/fstab | cut -f1 -d' ' | sort | tail -n +2 | tr '\n' ' ') command gets "/dev/xvdg /dev/xvdh /dev/xvdi"
 
+# Path where Java is installed on the CDSW nodes, eg /usr/java/default
+# Please consult Cloudera documentation for CDH and Cloudera Manager's
+# supported JDK versions.
+JAVA_HOME="/usr/java/default"
 
 # Configuring /etc/cdsw/config/cdsw.conf
 perl -pi -e "s/DOMAIN=.*/DOMAIN=\"${DOMAIN}\"/" /etc/cdsw/config/cdsw.conf
 perl -pi -e "s/MASTER_IP=.*/MASTER_IP=\"${MASTER_IP}\"/" /etc/cdsw/config/cdsw.conf
 perl -pi -e "s|DOCKER_BLOCK_DEVICES=.*|DOCKER_BLOCK_DEVICES=\"${DOCKER_BLOCK_DEVICES}\"|" /etc/cdsw/config/cdsw.conf
 perl -pi -e "s|APPLICATION_BLOCK_DEVICE=.*|APPLICATION_BLOCK_DEVICE=\"${APPLICATION_BLOCK_DEVICE}\"|" /etc/cdsw/config/cdsw.conf
+perl -pi -e "s|JAVA_HOME=.*|JAVA_HOME=\"${JAVA_HOME}\"|" /etc/cdsw/config/cdsw.conf
 for dev in $(grep '^/dev' /etc/fstab | cut -f1 -d' '); do umount $dev; done
 sed -i '/^\/dev/d' /etc/fstab
 
 # cdsw init - preinstall-validation - doesn't allow SELinux "permissive"
 perl -pi -e "s/getenforce/#getenforce/" /etc/cdsw/scripts/preinstall-validation.sh
+perl -pi -e "s/SELINUX=.*/SELINUX=disabled/" /etc/selinux/config
 
 # cdsw init - preinstall-validation - doesn't allow IPv6
 echo "net.ipv6.conf.all.disable_ipv6=0" >> /etc/sysctl.conf
+
+# Cloudera Data Science Workbench recommends that all users have a max-open-files limit set to 1048576.
+ulimit -n 1048576
+echo "* soft nofile 1048576" >> /etc/security/limits.conf
+echo "* hard nofile 1048576" >> /etc/security/limits.conf
 
 # Re-enabling iptables. Cloudera Director disables iptables but K8s needs it.
 rm -rf /etc/modprobe.d/iptables-blacklist.conf
