@@ -84,5 +84,9 @@ perl -pi -e "s/getenforce/#getenforce/" /etc/cdsw/scripts/preinstall-validation.
 # cdsw init - preinstall-validation - doesn't allow IPv6
 echo "net.ipv6.conf.all.disable_ipv6=0" >> /etc/sysctl.conf
 
+# Re-enabling iptables. Cloudera Director disables iptables but K8s needs it.
+rm -rf /etc/modprobe.d/iptables-blacklist.conf
+modprobe iptable_filter
+
 # 
 echo | cdsw init
