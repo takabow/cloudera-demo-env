@@ -99,5 +99,21 @@ echo "* hard nofile 1048576" >> /etc/security/limits.conf
 rm -rf /etc/modprobe.d/iptables-blacklist.conf
 modprobe iptable_filter
 
-# 
+# CDSW init
 echo | cdsw init
+
+wait_cdsw() {
+for i in `seq 30` : # 30*10sec -> 5min
+do
+    cdsw status
+    if [ $? -eq 0 ]; then
+        echo "CDSW is no up and ready."
+        break
+    fi
+    echo "Waiting for CDSW is up.... 10 seconds."
+    sleep 10
+done
+}
+
+# Waiting for CDSW is up
+wait_cdsw
