@@ -35,7 +35,7 @@ You need to install Cloudera Director Server/Client on your localhost and access
 ```
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ export AWS_SECRET_ACCESS_KEY=<your-aws-secret>
-$ cloudera-director bootstrap-remote cluster-cdsw-secure.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director bootstrap-remote cdsw-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
 
 **Note**
@@ -48,7 +48,7 @@ For the same reason, using this script in a large network (e.g. /16) is bad idea
 5. To terminate this environment, run `cloudera-director terminate-remote` command.
 
 ```
-$ cloudera-director terminate-remote $CLUSTER_CONF --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director terminate-remote cdsw-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
 
 ## Example
@@ -56,7 +56,7 @@ $ cloudera-director terminate-remote $CLUSTER_CONF --lp.remote.username=admin --
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ export AWS_SECRET_ACCESS_KEY=<your-aws-secret>
 
-$ cloudera-director bootstrap-remote cluster-cdsw-secure.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director bootstrap-remote cdsw-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 Process logs can be found at /opt/cloudera/director/cloudera-director-2.4.0/logs/application.log
 Plugins will be loaded from /opt/cloudera/director/cloudera-director-2.4.0/plugins
 Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=256M; support was removed in 8.0
@@ -183,18 +183,17 @@ After above, you can access to http://cdsw.10.0.0.84.xip.io (IP 10.0.0.84 change
 
 ## EC2 Instances
 
-If you change instance type, you can modify first section of `cluster-cdsw-secure.conf`.
+If you change instance type, you can modify first section of `cdsw-secure-cluster.conf`.
 But I think these instances are almost minimal.
 
 ```
 INSTANCE_TYPE_CM:        t2.xlarge    #vCPU 4, RAM 16G
 INSTANCE_TYPE_MASTER:    t2.large     #vCPU 2, RAM 8G
 INSTANCE_TYPE_WORKER:    t2.large     #vCPU 2, RAM 8G
-INSTANCE_TYPE_CDSW:      t2.2xlarge   #vCPU 8, RAM 32G          
+INSTANCE_TYPE_CDSW:      t2.2xlarge   #vCPU 8, RAM 32G
 
 WORKER_NODE_NUM:         3            #Number of Worker Nodes
 
-CDSW_DOCKER_VOLUME_NUM:  3    
+CDSW_DOCKER_VOLUME_NUM:  3
 CDSW_DOCKER_VOLUME_GB:   200
 ```
-
