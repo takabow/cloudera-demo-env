@@ -34,7 +34,7 @@ This is for Demo purposes only. Don't use for production.
 ```
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ export AWS_SECRET_ACCESS_KEY=<your-aws-secret>
-$ cloudera-director bootstrap-remote cluster-cdsw-secure.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director bootstrap-remote cdsw-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
 
 **Note**
@@ -47,7 +47,7 @@ For the same reason, using this script in a large network (e.g. /16) is bad idea
 5. To terminate this environment, run `cloudera-director terminate-remote` command.
 
 ```
-$ cloudera-director terminate-remote $CLUSTER_CONF --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director terminate-remote cdsw-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
 
 ## Example
@@ -55,7 +55,7 @@ $ cloudera-director terminate-remote $CLUSTER_CONF --lp.remote.username=admin --
 $ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ export AWS_SECRET_ACCESS_KEY=<your-aws-secret>
 
-$ cloudera-director bootstrap-remote cluster-cdsw-secure.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+$ cloudera-director bootstrap-remote cdsw-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 Process logs can be found at /usr/local/Cellar/cloudera-director-client/2.5.0/libexec/logs/application.log
 Plugins will be loaded from /usr/local/Cellar/cloudera-director-client/2.5.0/libexec/plugins
 Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=256M; support was removed in 8.0
@@ -164,6 +164,18 @@ $ ssh -i your-aws-sshkey.pem -D 8157 -q centos@54.178.225.243
 
 After above, you can access to http://cdsw.10.0.0.90.xip.io (IP 10.0.0.90 changes every time) from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
 
+## CDSW w/ GPU Support
+
+https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html
+
+If you want to use GPU from CDSW, you can use `cdsw-gpu-secure-cluster.conf` instead of `cdsw-secure-cluster.conf`
+
+```
+$ cloudera-director bootstrap-remote cdsw-gpu-secure-cluster.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
+```
+
+By default, this conf boot up `p2.xlarge` instance.
+
 ## Users
 
 - OS and CDH users
@@ -177,7 +189,7 @@ After above, you can access to http://cdsw.10.0.0.90.xip.io (IP 10.0.0.90 change
 
 ## EC2 Instances
 
-If you change instance type, you can modify first section of `cluster-cdsw-secure.conf`.
+If you change instance type, you can modify first section of `cdsw-secure-cluster.conf`.
 But I think these instances are almost minimal.
 
 ```
@@ -242,3 +254,4 @@ web-4124296242-phq7g                 1/1       Running     0          9m        
 
 Cloudera Data Science Workbench is ready!
 ```
+
