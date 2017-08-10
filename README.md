@@ -2,6 +2,9 @@
 Install scripts of Cloudera Data Science Workbench (CDSW) with CDH secure cluster on cloud.
 This is for Demo purposes only. Don't use for production.
 
+**Note: Please use the stable releases instead of master.** https://github.com/takabow/cdsw-demo-env/releases/tag/cdsw1.1-v2.0
+
+
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
   - Cloudera Director 2.5 on Mac
