@@ -31,10 +31,12 @@ yum -y install git
 
 # install dnsmasq
 yum -y install dnsmasq
+cat /etc/resolv.conf | grep nameserver > /etc/dnsmasq.resolv.conf
+perl -pi -e "s|^.*?resolv-file.*?$|resolv-file=/etc/dnsmasq.resolv.conf|" /etc/dnsmasq.conf
 systemctl start dnsmasq
 
 # Add DNS(dnsmasq on local)
-perl -pi -e "s/nameserver/nameserver $(hostname -i)\nnameserver/" /etc/resolv.conf
+perl -pi -e "s/nameserver.*$/nameserver $(hostname -i)/" /etc/resolv.conf
 chattr +i /etc/resolv.conf 
 
 # This domain for DNS and is unrelated to Kerberos or LDAP domains.
