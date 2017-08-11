@@ -2,7 +2,7 @@
 Install scripts of Cloudera Data Science Workbench (CDSW) with CDH secure cluster on cloud.
 This is for Demo purposes only. Don't use for production.
 
-**Note: Please use the stable releases instead of master.** https://github.com/takabow/cdsw-demo-env/releases/tag/cdsw1.1-v2.0
+**Note: Please use the stable releases instead of master.** https://github.com/takabow/cdsw-demo-env/releases/
 
 
 - I only tested on following environments
@@ -45,7 +45,7 @@ Only one cluster can be creted on the same network same time using this script.
 Because `bootstrap-configure-network.sh` script using `nmap` tricks to identify the CM (KDC) node during the bootstrapping phase.
 For the same reason, using this script in a large network (e.g. /16) is bad idea.
 
-4. `./get_cluster_ip.sh` provides the connection information to the environment. See also the following Example section.
+4. `./get_cluster_ip.sh <cluster.conf>` provides the connection information to the environment. See also the following Example section.
 
 5. To terminate this environment, run `cloudera-director terminate-remote` command.
 
@@ -144,7 +144,7 @@ Cloudera Manager ready.
 Cluster ready.
 
 
-$ ./get_cluster_ip.sh 
+$ ./get_cluster_ip.sh cdsw-secure-cluster.conf
 [Cloudera Manager]
 Public IP: 54.178.225.243    Private IP: 10.0.0.111
 CM URL: http://10.0.0.111:7180
