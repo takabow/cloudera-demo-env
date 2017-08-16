@@ -167,9 +167,34 @@ $ ssh -i your-aws-sshkey.pem -D 8157 -q centos@54.178.225.243
 
 After above, you can access to http://cdsw.10.0.0.90.xip.io (IP 10.0.0.90 changes every time) from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
 
-## CDSW w/ GPU Support
+## How to use CDSW
 
-https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html
+- Access to CDSW from browser.
+- Click "**Sign Up for a New Account**" and create a new account. This username doesn't relate to existing OS users or Kerberos principals. Therefore you can create any users.
+    - e.g.)
+    - Full Name: Demo User1
+    - Username: user1
+    - Email: user1@localhost.localdomain
+    - Password: user1user1
+- After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user1@HADOOP` and so on. Please read the following "Users and Authentication" section.
+    - e.g.)
+    - Principal: user1@HADOOP
+    - Password: user1
+
+## Users and Authentication
+
+- OS and CDH users, principals
+  - Demo users are created in the `postcreate-common-addusers-and-principals.sh` script.
+  - By default, this script creates five demo users and principals.
+  - username/password = `user1/user1`, `user2/user2`, `user3/user3`, `admin1/admin1`, `admin2/admin2`
+  - `admin1` and `admin2` are in the same group `dba`.
+  - The realm name creating by this script is `HADOOP`.
+- Cloudera Manager/Cloudera Navigator
+  - username/password = `admin/admin`
+- CDSW users
+  - You need to create CDSW user when you access to CDSW from your browser.
+
+## CDSW w/ GPU Support
 
 If you want to use GPU from CDSW, you can use `cdsw-gpu-secure-cluster.conf` instead of `cdsw-secure-cluster.conf`
 
@@ -179,16 +204,14 @@ $ cloudera-director bootstrap-remote cdsw-gpu-secure-cluster.conf --lp.remote.us
 
 By default, this conf boot up `p2.xlarge` instance.
 
-## Users
+You also need to create a custom CUDA-capable Engine Image.
+https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html#custom_cuda_engine
 
-- OS and CDH users
-  - Demo users are created in the `postcreate-common-addusers-and-principals.sh` script.
-  - By default, this script creates three demo users.
-  - username/password = `user1/user1`, `user2/user2`, `user3/user3`
-- Cloudera Manager
-  - username/password = `admin/admin`
-- CDSW users
-  - You need to create CDSW user when you access to CDSW from your browser.
+I already built a sample CUDA-capable engine image. If you want to use [my image](https://hub.docker.com/r/takabow/cdsw-cuda/) (`takabow/cdsw-cuda:2`) instead of base engine, you can add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
+
+
+For more details, please read the following document.
+https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html
 
 ## EC2 Instances
 
@@ -257,4 +280,3 @@ web-4124296242-phq7g                 1/1       Running     0          9m        
 
 Cloudera Data Science Workbench is ready!
 ```
-
