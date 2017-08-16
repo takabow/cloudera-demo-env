@@ -14,7 +14,7 @@ if [ -n "$CLUSTER_CONF" ]; then
 	ENV_NAME=${CLUSTER_NAME}"%20Environment"
     #ENV_NAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python2 -c 'import sys, json, urllib; print urllib.quote(json.load(sys.stdin)[0])'`
 else
-    CLUSTER_CONF="cluster-cdsw-secure.conf"
+    CLUSTER_CONF="cdsw-secure-cluster.conf"
 	CLUSTER_NAME=$(grep "^name:" $CLUSTER_CONF | awk '{print $2}')
 	ENV_NAME=${CLUSTER_NAME}"%20Environment"
 fi
