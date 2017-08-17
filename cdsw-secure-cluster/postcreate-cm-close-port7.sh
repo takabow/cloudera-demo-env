@@ -2,7 +2,7 @@
 
 # logging stdout/stderr
 set -x
-exec >> /root/postcreate-cm.log 2>&1
+exec >> /root/postcreate-cm-close-port7.log 2>&1
 date
 
 # Stop ECHO Server (on TCP port 7)
