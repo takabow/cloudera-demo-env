@@ -124,7 +124,7 @@ for i in `seq 30` : # 30*10sec -> 5min
 do
     cdsw status
     if [ $? -eq 0 ]; then
-        echo "CDSW is no up and ready."
+        echo "CDSW is now up and ready."
         break
     fi
     echo "Waiting for CDSW is up.... 10 seconds."

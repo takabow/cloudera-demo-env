@@ -4,13 +4,14 @@ This is for Demo purposes only. Don't use for production.
 
 **Note: Please use the stable releases instead of master.** https://github.com/takabow/cdsw-demo-env/releases/
 
+- These scripts install and deploy the following environment automatically.
+  - Cloudera Data Science Workbench 1.1.1 (Trial)
+  - Cloudera Enterprise 5.12 (Trial)
+  - MIT-KDC
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
   - Cloudera Director 2.5 on Mac
-  - Cloudera Enterprise 5.12 (installed automatically by this confs/scrips)
-  - Kerberos
-    - MIT-KDC (installed automatically by this confs/scrips)
 
 ## Requirement
 
