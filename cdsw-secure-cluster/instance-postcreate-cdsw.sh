@@ -89,7 +89,33 @@ APPLICATION_BLOCK_DEVICE="$(grep '^/dev' /etc/fstab | cut -f1 -d' ' | sort | hea
 # Path where Java is installed on the CDSW nodes, eg /usr/java/default
 # Please consult Cloudera documentation for CDH and Cloudera Manager's
 # supported JDK versions.
-JAVA_HOME="/usr/java/default"
+JAVA_HOME_CANDIDATES=(
+    '/usr/java/jdk1.8'
+    '/usr/java/jre1.8'
+    '/usr/lib/jvm/j2sdk1.8-oracle'
+    '/usr/lib/jvm/j2sdk1.8-oracle/jre'
+    '/usr/lib/jvm/java-8-oracle'
+    '/usr/lib/jdk8-latest'
+    '/usr/java/jdk1.7'
+    '/usr/java/jre1.7'
+    '/usr/lib/jvm/j2sdk1.7-oracle'
+    '/usr/lib/jvm/j2sdk1.7-oracle/jre'
+    '/usr/lib/jvm/java-7-oracle'
+    '/usr/lib/jdk7-latest'
+)
+echo $JAVA_HOME
+if [ -z "${JAVA_HOME}" ]; then
+  for candidate_regex in ${JAVA_HOME_CANDIDATES[@]} ; do
+      for candidate in `ls -rvd ${candidate_regex}* 2>/dev/null`; do
+        if [ -e ${candidate}/bin/java ]; then
+          export JAVA_HOME=${candidate}
+          echo $JAVA_HOME
+          break
+        fi
+      done
+  done
+fi
+
 
 # Configuring /etc/cdsw/config/cdsw.conf
 perl -pi -e "s/DOMAIN=.*/DOMAIN=\"${DOMAIN}\"/" /etc/cdsw/config/cdsw.conf
