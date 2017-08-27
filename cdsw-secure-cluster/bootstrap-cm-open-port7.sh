@@ -6,8 +6,10 @@ exec >> /root/bootstrap-cm-open-port7.log 2>&1
 date
 
 # Setting ECHO Server (on TCP port 7)
-# Open the TPC port 7 so that other nodes can identify the CM node in the bootstrapping.
+# Open the TCP port 7 so that other nodes can identify the CM node in the bootstrapping.
 # If the TCP port 7 is opened, the node must be the CM node.
 yum -y install xinetd
-sed -i -e "s:\(disable.*=.*\)yes:\1no:" /etc/xinetd.d/echo-stream
-systemctl start xinetd
+perl -pi -e "s/(disable.*=.*)yes/\1no\n\tflags           = IPv4/" /etc/xinetd.d/echo-stream
+systemctl restart xinetd
+systemctl status xinetd
+netstat -anpt | grep xinetd
