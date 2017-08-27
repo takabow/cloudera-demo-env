@@ -8,4 +8,5 @@ date
 # Stop ECHO Server (on TCP port 7)
 # This ECHO Server was for CM node discovery in the bootstrapping.
 systemctl stop xinetd
-sed -i -e "s:\(disable.*=.*\)no:\1yes:" /etc/xinetd.d/echo-stream
+systemctl status xinetd
+perl -pi -e "s/(disable.*=.*)no/\1yes/" /etc/xinetd.d/echo-stream
