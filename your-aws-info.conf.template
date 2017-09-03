@@ -4,7 +4,7 @@ AWS_SECURITY_GROUP:    sg-xxxxxxxx             #Your Security Group
 KEY_PAIR:              your-keypair-on-aws.pem #Your AWS Keypair, Set /full/path/to/your-keypair-on-aws.pem
 
 OS_USERNAME:           centos                  #OS Super user (e.g. centos, ec2-user)
-AWS_AMI:               ami-xxxxxxxx            #An CentOS7/RHEL7 AMI on Your AWS Regiion (e.g. ami-29d1e34e is CentOS 7.3 on Tokyo region)
+AWS_AMI:               ami-xxxxxxxx            #An CentOS7/RHEL7 AMI on Your AWS Region (e.g. ami-29d1e34e is CentOS 7.3 on Tokyo region)
                                                #https://aws.amazon.com/marketplace/fulfillment?productId=b7ee8a69-ee97-4a49-9e68-afaee216db2e&versionTitle=1704&launch=manualLaunch
                                                #Note: Some scripts depend on CentOS7/RHEL7 os command and I only tested on CentOS7
 
