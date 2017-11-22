@@ -49,5 +49,11 @@ if [ -n "$CDSW" ]; then
    echo ""
 fi
 
+if [ -n "$AN_IMPALD_IPADDR" ]; then
+    echo "[SSH Tunnel to Impalad]"
+    echo "ssh -i ${KEY_PAIR} -L:21050:${AN_IMPALD_IPADDR}:21050 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
+    echo ""
+fi
+
 echo "[SSH Tunnel for Dynamic Port Forwarding]"
 echo "ssh -i ${KEY_PAIR} -D 8157 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
