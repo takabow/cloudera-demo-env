@@ -5,18 +5,19 @@ This is for Demo purposes only. Don't use for production.
 **Note: Please use the stable releases instead of master.** https://github.com/takabow/cdsw-demo-env/releases/
 
 - These scripts install and deploy the following environment automatically.
-  - Cloudera Data Science Workbench 1.2.0 (Trial)
+  - Cloudera Data Science Workbench 1.2.1 (Trial)
     - Package Installation (not Parcel Installation)
-  - Cloudera Enterprise 5.13 (Trial)
+  - Cloudera Enterprise 5.13.1 (Trial)
   - MIT-KDC
+  - DNS configuration for CDSW (by Dnsmasq and xip.io)
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
-  - Cloudera Director 2.6 on Mac
+  - Cloudera Director 2.6.1 on Mac
 
 ## Requirement
 
-- Cloudera Director 2.6
+- Cloudera Director 2.6.1
     - The simplest way to install Cloudera Director on Mac is here -> https://github.com/chezou/homebrew-cloudera
 - AWS Environment
     - Setting up a VPC for Cloudera Director
