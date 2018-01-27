@@ -16,7 +16,7 @@ cd /etc/yum.repos.d
 cat << __EOF__ > cloudera-cdsw.repo
 [cloudera-cdsw]
 name=Cloudera's Distribution for cdsw, Version 1
-baseurl=https://archive.cloudera.com/cdsw/1/redhat/7/x86_64/cdsw/1.2.1/
+baseurl=https://archive.cloudera.com/cdsw/1/redhat/7/x86_64/cdsw/1.3.0/
 gpgkey =https://archive.cloudera.com/cdsw/1/redhat/7/x86_64/cdsw/RPM-GPG-KEY-cloudera
 gpgcheck = 1
 __EOF__
