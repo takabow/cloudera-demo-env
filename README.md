@@ -13,11 +13,11 @@ This is for Demo purposes only. Don't use for production.
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
-  - Cloudera Director 2.6.1 on Mac
+  - Cloudera Director 2.7.0 on Mac
 
 ## Requirement
 
-- Cloudera Director 2.6.1
+- Cloudera Director 2.7.0
     - The simplest way to install Cloudera Director on Mac is here -> https://github.com/chezou/homebrew-cloudera
 - AWS Environment
     - Setting up a VPC for Cloudera Director
