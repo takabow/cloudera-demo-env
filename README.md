@@ -249,50 +249,57 @@ CDSW_DOCKER_VOLUME_GB:   200
 ## CDSW node
 
 On the CDSW node, you can check the status of CDSW using `cdsw status`.
-The following example is the status of `cdsw tatus` after installation finished.
+The following example is the status of `cdsw status` after installation finished.
 
 ```
 $ sudo cdsw status
-Cloudera Data Science Workbench Status
-
-Service Status
-docker: active
-kubelet: active
-nfs: active
-Checking kernel parameters...
-
-Node Status
-NAME           STATUS    AGE       VERSION   EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION               STATEFUL
-ip-10-0-0-90   Ready     10m       v1.6.2    <none>        CentOS Linux 7 (Core)   3.10.0-514.16.1.el7.x86_64   true
-
-GPUs present on nodes:
-ip-10-0-0-90 ==>
-
-System Pod status
-NAME                                   READY     STATUS    RESTARTS   AGE       IP           NODE
-etcd-ip-10-0-0-90                      1/1       Running   0          10m       10.0.0.90    ip-10-0-0-90
-kube-apiserver-ip-10-0-0-90            1/1       Running   0          10m       10.0.0.90    ip-10-0-0-90
-kube-controller-manager-ip-10-0-0-90   1/1       Running   0          10m       10.0.0.90    ip-10-0-0-90
-kube-dns-3913472980-xp2c6              3/3       Running   0          10m       100.66.0.2   ip-10-0-0-90
-kube-proxy-h6r54                       1/1       Running   0          10m       10.0.0.90    ip-10-0-0-90
-kube-scheduler-ip-10-0-0-90            1/1       Running   0          10m       10.0.0.90    ip-10-0-0-90
-node-problem-detector-v0.1-j9vg4       1/1       Running   0          9m        10.0.0.90    ip-10-0-0-90
-weave-net-3np13                        2/2       Running   0          10m       10.0.0.90    ip-10-0-0-90
-
-Cloudera Data Science Workbench Pod Status
-NAME                                 READY     STATUS      RESTARTS   AGE       IP            NODE           ROLE
-8l3yqddqq3bomzxx                     3/3       Running     0          2m        100.66.0.13   ip-10-0-0-90   console
-cron-2108817090-tvzn2                1/1       Running     0          9m        100.66.0.6    ip-10-0-0-90   cron
-db-3629635219-nd7nr                  1/1       Running     0          9m        100.66.0.5    ip-10-0-0-90   db
-db-migrate-7af83a5-mjbbz             0/1       Completed   0          9m        100.66.0.4    ip-10-0-0-90   db-migrate
-engine-deps-kqwv8                    1/1       Running     0          9m        100.66.0.3    ip-10-0-0-90   engine-deps
-ingress-controller-328322188-8hvp5   1/1       Running     0          9m        10.0.0.90     ip-10-0-0-90   ingress-controller
-livelog-1349091387-nmr0z             1/1       Running     0          9m        100.66.0.8    ip-10-0-0-90   livelog
-reconciler-2327718847-fs39x          1/1       Running     0          9m        100.66.0.7    ip-10-0-0-90   reconciler
-spark-port-forwarder-39gz4           1/1       Running     0          9m        100.66.0.9    ip-10-0-0-90   spark-port-forwarder
-web-4124296242-6z1l7                 1/1       Running     0          9m        100.66.0.12   ip-10-0-0-90   web
-web-4124296242-h5xml                 1/1       Running     0          9m        100.66.0.11   ip-10-0-0-90   web
-web-4124296242-phq7g                 1/1       Running     0          9m        100.66.0.10   ip-10-0-0-90   web
-
+cdsw status
+Sending detailed logs to [/tmp/cdsw_status_HAmpRL.log] ...
+CDSW Version: [1.3.0:9bb84f6]
+OK: Application running as root check
+OK: Sysctl params check
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|        NAME       |   STATUS   |           CREATED-AT          |   VERSION   |   EXTERNAL-IP   |          OS-IMAGE         |         KERNEL-VERSION         |   GPU   |   STATEFUL   |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|   ip-10-0-0-167   |    True    |   2018-01-28 14:40:09+00:00   |   v1.6.11   |       None      |   CentOS Linux 7 (Core)   |   3.10.0-514.16.1.el7.x86_64   |    0    |     True     |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1/1 nodes are ready.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|                    NAME                   |   READY   |    STATUS   |   RESTARTS   |           CREATED-AT          |     POD-IP     |    HOST-IP     |   ROLE   |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|             etcd-ip-10-0-0-167            |    1/1    |   Running   |      0       |   2018-01-28 14:41:34+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+|        kube-apiserver-ip-10-0-0-167       |    1/1    |   Running   |      0       |   2018-01-28 14:40:08+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+|   kube-controller-manager-ip-10-0-0-167   |    1/1    |   Running   |      0       |   2018-01-28 14:40:07+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+|         kube-dns-3911048160-krs31         |    3/3    |   Running   |      0       |   2018-01-28 14:40:24+00:00   |   100.66.0.3   |   10.0.0.167   |   None   |
+|              kube-proxy-lzq95             |    1/1    |   Running   |      0       |   2018-01-28 14:40:24+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+|        kube-scheduler-ip-10-0-0-167       |    1/1    |   Running   |      0       |   2018-01-28 14:40:07+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+|      node-problem-detector-v0.1-h8mbg     |    1/1    |   Running   |      0       |   2018-01-28 14:41:48+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+|              weave-net-91xmq              |    2/2    |   Running   |      0       |   2018-01-28 14:40:24+00:00   |   10.0.0.167   |   10.0.0.167   |   None   |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+All required pods are ready in cluster kube-system.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|                  NAME                  |   READY   |     STATUS    |   RESTARTS   |           CREATED-AT          |      POD-IP     |    HOST-IP     |           ROLE           |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|         cron-1906902965-qxnjd          |    1/1    |    Running    |      0       |   2018-01-28 14:41:47+00:00   |    100.66.0.4   |   10.0.0.167   |           cron           |
+|          db-1165222207-99m93           |    1/1    |    Running    |      0       |   2018-01-28 14:41:47+00:00   |    100.66.0.5   |   10.0.0.167   |            db            |
+|        db-migrate-9bb84f6-6lhbr        |    0/1    |   Succeeded   |      0       |   2018-01-28 14:41:47+00:00   |    100.66.0.7   |   10.0.0.167   |        db-migrate        |
+|           engine-deps-ctmvq            |    1/1    |    Running    |      0       |   2018-01-28 14:41:47+00:00   |    100.66.0.6   |   10.0.0.167   |       engine-deps        |
+|   ingress-controller-684706958-zl9l3   |    1/1    |    Running    |      0       |   2018-01-28 14:41:47+00:00   |    10.0.0.167   |   10.0.0.167   |    ingress-controller    |
+|        livelog-2502658797-ltqg5        |    1/1    |    Running    |      0       |   2018-01-28 14:41:47+00:00   |    100.66.0.8   |   10.0.0.167   |         livelog          |
+|      reconciler-2738760185-lqlmz       |    1/1    |    Running    |      0       |   2018-01-28 14:41:47+00:00   |    100.66.0.9   |   10.0.0.167   |        reconciler        |
+|       spark-port-forwarder-mx286       |    1/1    |    Running    |      0       |   2018-01-28 14:41:48+00:00   |    10.0.0.167   |   10.0.0.167   |   spark-port-forwarder   |
+|          web-3320989329-698m4          |    1/1    |    Running    |      0       |   2018-01-28 14:41:48+00:00   |   100.66.0.11   |   10.0.0.167   |           web            |
+|          web-3320989329-cqtpz          |    1/1    |    Running    |      0       |   2018-01-28 14:41:48+00:00   |    100.66.0.7   |   10.0.0.167   |           web            |
+|          web-3320989329-gwmfm          |    1/1    |    Running    |      0       |   2018-01-28 14:41:48+00:00   |   100.66.0.10   |   10.0.0.167   |           web            |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+All required pods are ready in cluster default.
+All required Application services are configured.
+All required config maps are ready.
+All required secrets are available.
+Persistent volumes are ready.
+Persistent volume claims are ready.
+Ingresses are ready.
+Checking web at url: http://cdsw.10.0.0.167.xip.io
+OK: HTTP port check
 Cloudera Data Science Workbench is ready!
 ```
