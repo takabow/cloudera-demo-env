@@ -36,7 +36,7 @@ curl -X POST -u ${CM_USERNAME}:${CM_PASSWORD} http://${DEPLOYMENT_HOST_PORT}/api
 sleep 10
 
 # Waiting for CDSW is up
-for i in `seq 30` : # 30*10sec -> 5min
+for i in `seq 60` : # 60*10sec -> 10min
 do
     cdsw status
     if [ $? -eq 0 ]; then
