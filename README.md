@@ -6,7 +6,7 @@ This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following environment automatically.
   - Cloudera Data Science Workbench 1.3.0 (Trial)
-    - Package Installation (not Parcel Installation)
+    - Parcel Installation
   - Cloudera Enterprise 5.14.0 (Trial)
   - MIT-KDC
   - DNS configuration for CDSW (by Dnsmasq and xip.io)
