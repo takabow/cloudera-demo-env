@@ -1,2 +1,3 @@
 *.h2.db
+.DS_Store
 your-aws-info.conf
