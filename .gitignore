@@ -1,3 +1,4 @@
 *.h2.db
 .DS_Store
+six.pyc
 your-aws-info.conf
