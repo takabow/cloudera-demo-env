@@ -184,5 +184,5 @@ You can access to Cloudear Manager, http://10.0.0.155:7180 - (IP 10.0.0.155 chan
 
 ## How to use
 
-- [How to use CDSW demo](/cdsw-demo.md)
-- [How to use Impala demo](/impala-demo.md)
+- [How to use CDSW demo](/docs/cdsw-demo.md)
+- [How to use Impala demo](/docs/impala-demo.md)
