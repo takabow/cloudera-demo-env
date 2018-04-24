@@ -11,43 +11,60 @@ KEY_PAIR=`cat your-aws-info.conf | grep KEY_PAIR: | awk '{print $2}'`
 CLUSTER_CONF="$@"
 if [ -n "$CLUSTER_CONF" ]; then
 	CLUSTER_NAME=$(grep "^name:" $CLUSTER_CONF | awk '{print $2}')
-	ENV_NAME=${CLUSTER_NAME}"%20Environment"
-    #ENV_NAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python2 -c 'import sys, json, urllib; print urllib.quote(json.load(sys.stdin)[0])'`
+	ENV_NAMES=${CLUSTER_NAME}"%20Environment"
+else
+    ENV_NAMES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print("\n".join([quote(str(i)) for i in json.load(sys.stdin)]))'`
 fi
 
-DEPLOYMENT_NAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print(quote(json.load(sys.stdin)[0]))'`
-CLUSTER_NAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print(quote(json.load(sys.stdin)[0]))'`
+for ENV_NAME in $ENV_NAMES; do
+    ENV_NAME_PRINT=`echo ${ENV_NAME} | python -c 'import sys, json; from six.moves.urllib.parse import unquote; print(unquote(sys.stdin.read()))'`
 
-#Get CM IP Addrs on AWS
-CM_PUBLIC_IPADDR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["managerInstance"]["properties"]["publicIpAddress"])'`
-CM_PRIVATE_IPADDR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["managerInstance"]["properties"]["privateIpAddress"])'`
+    echo "--[${ENV_NAME_PRINT}]-----------------"
+    DEPLOYMENT_NAMES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments`
+    if [ "$DEPLOYMENT_NAMES" = "[ ]" ]; then
+        echo "${ENV_NAME_PRINT} has no deployment."
+        echo ""
+        continue
+    fi
 
-#Get Node IP Addrs on AWS
-INS_IPADDRS=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/${CLUSTER_NAME} | python -c 'import sys, json;print("\n".join([i["virtualInstance"]["template"]["name"] +","+ i["properties"]["publicIpAddress"] +","+ i["properties"]["privateIpAddress"] for i in json.load(sys.stdin)["instances"]]))'`
+    DEPLOYMENT_NAME=`echo ${DEPLOYMENT_NAMES} | python -c 'import sys, json; from six.moves.urllib.parse import quote; print(quote(json.load(sys.stdin)[0]))'`
+    CLUSTER_NAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print(quote(json.load(sys.stdin)[0]))'`
 
-#Get An Impalad IP Addr on AWS
-AN_IMPALD_IPADDR=`echo "${INS_IPADDRS}" | awk -F[,] '/worker/ {print $3}' | head -n1`
+    #Get CM IP Addrs on AWS
+    CM_PUBLIC_IPADDR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["managerInstance"]["properties"]["publicIpAddress"])'`
+    CM_PRIVATE_IPADDR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["managerInstance"]["properties"]["privateIpAddress"])'`
 
-echo "[Cloudera Manager]"
-echo "Public IP: ${CM_PUBLIC_IPADDR}    Private IP: ${CM_PRIVATE_IPADDR}"
-echo "CM URL: http://${CM_PRIVATE_IPADDR}:7180"
-echo ""
+    #Get Node IP Addrs on AWS
+    INS_IPADDRS=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/${CLUSTER_NAME} | python -c 'import sys, json;print("\n".join([i["virtualInstance"]["template"]["name"] +","+ i["properties"]["publicIpAddress"] +","+ i["properties"]["privateIpAddress"] for i in json.load(sys.stdin)["instances"]]))'`
 
-echo "[Nodes]"
-echo "${INS_IPADDRS}" | awk -F[,] '{printf "%10s    Public IP: %16s    Private IP: %16s\n", $1, $2, $3}' 
-echo ""
+    #Get An Impalad IP Addr on AWS
+    AN_IMPALD_IPADDR=`echo "${INS_IPADDRS}" | awk -F[,] '/worker/ {print $3}' | head -n1`
 
-CDSW=`echo "${INS_IPADDRS}" | grep "cdsw"`
-if [ -n "$CDSW" ]; then
-   echo "[CDSW]"
-   CDSW_PRIVATE_IPADDR=`echo $CDSW | awk -F[,] '{print $3}'`
-   echo "CDSW URL: http://cdsw.${CDSW_PRIVATE_IPADDR}.xip.io" 
-   echo ""
-fi
-
-IMPALA=`echo "${INS_IPADDRS}" | grep "impala"`
-if [ -n "$IMPALA" ]; then
-    echo "[SSH Tunnel for Cloudera Manager and Impala]"
-    echo "ssh -i ${KEY_PAIR} -L:21050:${AN_IMPALD_IPADDR}:21050 -D 8157 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
+    echo "[Cloudera Manager]"
+    echo "Public IP: ${CM_PUBLIC_IPADDR}    Private IP: ${CM_PRIVATE_IPADDR}"
+    echo "CM URL: http://${CM_PRIVATE_IPADDR}:7180"
     echo ""
-fi
+
+    echo "[Nodes]"
+    echo "${INS_IPADDRS}" | awk -F[,] '{printf "%10s    Public IP: %16s    Private IP: %16s\n", $1, $2, $3}' 
+    echo ""
+
+    echo "[SSH Tunnel for Cloudera Manager]"
+    echo "ssh -i ${KEY_PAIR} -D 8157 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
+
+    CDSW=`echo "${INS_IPADDRS}" | grep "cdsw"`
+    if [ -n "$CDSW" ]; then
+    echo "[CDSW]"
+    CDSW_PRIVATE_IPADDR=`echo $CDSW | awk -F[,] '{print $3}'`
+    echo "CDSW URL: http://cdsw.${CDSW_PRIVATE_IPADDR}.xip.io" 
+    echo ""
+    fi
+
+    IMPALA=`echo "${INS_IPADDRS}" | grep "impala"`
+    if [ -n "$IMPALA" ]; then
+        echo "[SSH Tunnel for Cloudera Manager and Impala]"
+        echo "ssh -i ${KEY_PAIR} -L:21050:${AN_IMPALD_IPADDR}:21050 -D 8157 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
+        echo ""
+    fi
+
+done
