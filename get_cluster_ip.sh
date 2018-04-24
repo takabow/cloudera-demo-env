@@ -8,12 +8,18 @@ CD_USER_PASS="admin"
 OS_USERNAME=`cat your-aws-info.conf | grep OS_USERNAME: | awk '{print $2}'`
 KEY_PAIR=`cat your-aws-info.conf | grep KEY_PAIR: | awk '{print $2}'`
 
+
+ENV_NAMES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print("\n".join([quote(str(i)) for i in json.load(sys.stdin)]))'`
+
+if [ -z "$ENV_NAMES"]; then
+    echo "No environment exists"
+    exit;
+fi
+
 CLUSTER_CONF="$@"
 if [ -n "$CLUSTER_CONF" ]; then
 	CLUSTER_NAME=$(grep "^name:" $CLUSTER_CONF | awk '{print $2}')
 	ENV_NAMES=${CLUSTER_NAME}"%20Environment"
-else
-    ENV_NAMES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print("\n".join([quote(str(i)) for i in json.load(sys.stdin)]))'`
 fi
 
 for ENV_NAME in $ENV_NAMES; do
@@ -36,6 +42,7 @@ for ENV_NAME in $ENV_NAMES; do
 
     #Get Node IP Addrs on AWS
     INS_IPADDRS=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/${CLUSTER_NAME} | python -c 'import sys, json;print("\n".join([i["virtualInstance"]["template"]["name"] +","+ i["properties"]["publicIpAddress"] +","+ i["properties"]["privateIpAddress"] for i in json.load(sys.stdin)["instances"]]))'`
+
 
     #Get An Impalad IP Addr on AWS
     AN_IMPALD_IPADDR=`echo "${INS_IPADDRS}" | awk -F[,] '/worker/ {print $3}' | head -n1`
