@@ -42,10 +42,9 @@ for ENV_NAME in $ENV_NAMES; do
 
     #Get Node IP Addrs on AWS
     INS_IPADDRS=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/${CLUSTER_NAME} | python -c 'import sys, json;print("\n".join([i["virtualInstance"]["template"]["name"] +","+ i["properties"]["publicIpAddress"] +","+ i["properties"]["privateIpAddress"] for i in json.load(sys.stdin)["instances"]]))'`
-
-
-    #Get An Impalad IP Addr on AWS
-    AN_IMPALD_IPADDR=`echo "${INS_IPADDRS}" | awk -F[,] '/worker/ {print $3}' | head -n1`
+    
+    #Get Services
+    SERVICES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/${CLUSTER_NAME} | python -c 'import sys, json;print("\n".join([i["serviceName"] for i in json.load(sys.stdin)["services"]]))'`
 
     echo "[Cloudera Manager]"
     echo "Public IP: ${CM_PUBLIC_IPADDR}    Private IP: ${CM_PRIVATE_IPADDR}"
@@ -58,6 +57,7 @@ for ENV_NAME in $ENV_NAMES; do
 
     echo "[SSH Tunnel for Cloudera Manager]"
     echo "ssh -i ${KEY_PAIR} -D 8157 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
+    echo ""
 
     CDSW=`echo "${INS_IPADDRS}" | grep "cdsw"`
     if [ -n "$CDSW" ]; then
@@ -67,11 +67,13 @@ for ENV_NAME in $ENV_NAMES; do
     echo ""
     fi
 
-    IMPALA=`echo "${INS_IPADDRS}" | grep "impala"`
+    IMPALA=`echo "${SERVICES}" | grep -i "impala"`
     if [ -n "$IMPALA" ]; then
+        #Get An Impalad IP Addr on AWS
+        AN_IMPALD_IPADDR=`echo "${INS_IPADDRS}" | awk -F[,] '/worker/ {print $3}' | head -n1`
+
         echo "[SSH Tunnel for Cloudera Manager and Impala]"
         echo "ssh -i ${KEY_PAIR} -L:21050:${AN_IMPALD_IPADDR}:21050 -D 8157 -q ${OS_USERNAME}@${CM_PUBLIC_IPADDR}"
         echo ""
     fi
-
 done
