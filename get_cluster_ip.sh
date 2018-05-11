@@ -11,7 +11,7 @@ KEY_PAIR=`cat your-aws-info.conf | grep KEY_PAIR: | awk '{print $2}'`
 
 ENV_NAMES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print("\n".join([quote(str(i)) for i in json.load(sys.stdin)]))'`
 
-if [ -z "$ENV_NAMES"]; then
+if [ -z "$ENV_NAMES" ]; then
     echo "No environment exists"
     exit;
 fi
