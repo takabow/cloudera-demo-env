@@ -3,7 +3,7 @@ Install scripts of Cloudera Demo cluster on the cloud environment.
 This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following demo environment automatically.
-  - Cloudera Data Science Workbench 1.3.0 (Trial) + Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC + DNS configuration for CDSW (by Dnsmasq and xip.io)
+  - Cloudera Data Science Workbench 1.4.0 (Trial) + Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC + DNS configuration for CDSW (by Dnsmasq and xip.io)
     - `cdsw-secure-cluster.conf`
   - Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC
     - `secure-cluster.conf`
