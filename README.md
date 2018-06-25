@@ -3,21 +3,21 @@ Install scripts of Cloudera Demo cluster on the cloud environment.
 This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following demo environment automatically.
-  - Cloudera Data Science Workbench 1.3.0 (Trial) + Secure CDH Cluster (Cloudera Enterprise 5.14.0 Trial) + MIT-KDC + DNS configuration for CDSW (by Dnsmasq and xip.io)
+  - Cloudera Data Science Workbench 1.4.0 (Trial) + Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC + DNS configuration for CDSW (by Dnsmasq and xip.io)
     - `cdsw-secure-cluster.conf`
-  - Secure CDH Cluster (Cloudera Enterprise 5.14.0 Trial) + MIT-KDC
+  - Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC
     - `secure-cluster.conf`
-  - Impala Demo Cluster (Cloudera Enterprise 5.14.0 Trial) + Sample data(airport data)
+  - Impala Demo Cluster (Cloudera Enterprise 5.15.0 Trial) + Sample data(airport data)
     - `impala-demo-cluster.conf`
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
-  - Cloudera Director 2.7.0 on Mac
+  - Cloudera Director 2.8.0 on Mac
 
 ## Requirement
 
-- Cloudera Director 2.7.0
-    - The simplest way to install Cloudera Director on Mac is here -> https://github.com/chezou/homebrew-cloudera
+- Cloudera Director 2.8.0
+    - The simplest way to install Cloudera Director on Mac is here -> https://github.com/takabow/homebrew-cloudera
 - AWS Environment
     - Setting up a VPC for Cloudera Director
     - Creating a security group for Cloudera Director
