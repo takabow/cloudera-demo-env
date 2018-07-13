@@ -19,6 +19,7 @@ yum -y install dnsmasq
 cat /etc/resolv.conf | grep nameserver > /etc/dnsmasq.resolv.conf
 perl -pi -e "s|^.*?resolv-file.*?$|resolv-file=/etc/dnsmasq.resolv.conf|" /etc/dnsmasq.conf
 systemctl start dnsmasq
+systemctl enable dnsmasq
 
 # Add DNS(dnsmasq on local)
 perl -pi -e "s/nameserver.*$/nameserver $(hostname -i)/" /etc/resolv.conf
