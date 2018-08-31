@@ -9,6 +9,8 @@ This is for Demo purposes only. Don't use for production.
     - `secure-cluster.conf`
   - Impala Demo Cluster (Cloudera Enterprise 5.15.0 Trial) + Sample data(airport data)
     - `impala-demo-cluster.conf`
+  - CDH 6.0 Demo Cluster (Cloudera Enterprise 6.0.0 Trial)
+    - `nonsecure-c6-cluster.conf`
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
