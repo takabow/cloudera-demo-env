@@ -11,20 +11,30 @@ cd /opt/data
 yum -y install wget
 
 # Downloading airlines data
-wget https://ibis-resources.s3.amazonaws.com/data/airlines/airlines_parquet.tar.gz
+wget -nv https://ibis-resources.s3.amazonaws.com/data/airlines/airlines_parquet.tar.gz
 tar xvzf airlines_parquet.tar.gz
 sudo -u hdfs hdfs dfs -mkdir /tmp/airlines/
 sudo -u hdfs hdfs dfs -put airlines_parquet/* /tmp/airlines/
 
-wget https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat
+wget -nv https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat
 sudo -u hdfs hdfs dfs -mkdir /tmp/airports
 sudo -u hdfs hdfs dfs -put airports.dat /tmp/airports/
 
 sudo -u hdfs hdfs dfs -chmod 777 /tmp/airlines /tmp/airports
 
+sudo -u hdfs hdfs dfs -mkdir /user/user1
+
 
 # airport
-sudo -u hive hive -e '''
+
+HIVE_NAME=`curl -s -u admin:admin http://${DEPLOYMENT_HOST_PORT}/api/v16/clusters/${CLUSTER_NAME}/services | grep "CD-HIVE" | grep name | awk -F'"' '{print $4}'`
+echo ${HIVE_NAME}
+HS2_HOST_ID=`curl -s -u admin:admin http://${DEPLOYMENT_HOST_PORT}/api/v16/clusters/${CLUSTER_NAME}/services/${HIVE_NAME}/roles | grep -A 8 '"type" : "HIVESERVER2"' | grep hostId | awk -F'"' 'NR==1{print $4}'`
+echo ${HS2_HOST_ID}
+HS2_IP_ADDR=`curl -s -u admin:admin http://${DEPLOYMENT_HOST_PORT}/api/v16/hosts | grep -A 1 ${HS2_HOST_ID} | grep ipAddress | awk -F'"' 'NR==1{print $4}'`
+echo ${HS2_IP_ADDR}
+
+sudo -u hive beeline -n hive -u jdbc:hive2://${HS2_IP_ADDR}:10000 -e '''
 CREATE EXTERNAL TABLE airports_csv (
 id INT,
 name STRING,
