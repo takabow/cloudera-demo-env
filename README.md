@@ -3,18 +3,22 @@ Install scripts of Cloudera Demo cluster on the cloud environment.
 This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following demo environment automatically.
-  - Cloudera Data Science Workbench 1.4.0 (Trial) + Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC + DNS configuration for CDSW (by Dnsmasq and xip.io)
-    - `cdsw-secure-cluster.conf`
-  - Secure CDH Cluster (Cloudera Enterprise 5.15.0 Trial) + MIT-KDC
-    - `secure-cluster.conf`
-  - Impala Demo Cluster (Cloudera Enterprise 5.15.0 Trial) + Sample data(airport data)
-    - `impala-demo-cluster.conf`
-  - CDH 6.0 Demo Cluster (Cloudera Enterprise 6.0.0 Trial)
-    - `nonsecure-c6-cluster.conf`
+  - CDH Cluster
+    - `nonsecure-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
+    - `nonsecure-c5-cluster.conf` (Cloudera Enterprise 5.15.0 Trial)
+  - Secure CDH Cluster + MIT-KDC
+    - `secure-c5-cluster.conf`  (Cloudera Enterprise 5.15.0 Trial)
+    - `secure-c6-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
+  - Cloudera DWH Demo Cluster + Sample data(airport data)
+    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.0 Trial) 
+    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
+  - Cloudera Data Science Workbench + MIT-KDC + DNS configuration for CDSW
+    - `cdsw-secure-cluster.conf` (CDSW 1.4.0 Trial + Cloudera Enterprise 5.15.0 Trial)
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
   - Cloudera Director 2.8.0 on Mac
+  - CentOS 7.4
 
 ## Requirement
 
