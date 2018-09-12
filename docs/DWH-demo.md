@@ -36,7 +36,7 @@ No users are created and no need to authenticate.
 
 ## EC2 Instances
 
-If you change instance type, you can modify first section of `impala-demo-cluster.conf`.
+If you change instance type, you can modify first section of `demo-dwh-c5-cluster.conf` or `demo-dwh-c6-cluster.conf`.
 
 ```
 INSTANCE_TYPE_CM:        t2.xlarge    #vCPU 4, RAM 16G
