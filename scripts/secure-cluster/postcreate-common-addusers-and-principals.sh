@@ -52,4 +52,3 @@ if [ -e /root/master ]; then
     hdfs dfs -mkdir /user/user3
     hdfs dfs -chown user3 /user/user3
 fi
-

@@ -36,4 +36,3 @@ if [ -e /root/master ]; then
     sudo -u hdfs hdfs dfs -mkdir /user/user3
     sudo -u hdfs hdfs dfs -chown user3 /user/user3
 fi
-
