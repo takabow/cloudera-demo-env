@@ -17,21 +17,21 @@ This is for Demo purposes only. Don't use for production.
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
-  - Cloudera Director 6.0.0 on Mac
+  - Cloudera Altus Director 6.0.0 on Mac
   - CentOS 7.4
 
 ## Requirement
 
-- Cloudera Director 6.0.0
-    - The simplest way to install Cloudera Director on Mac is here -> https://github.com/takabow/homebrew-cloudera
+- Cloudera Altus Director 6.0.0
+    - The simplest way to install Cloudera Altus Director on Mac is here -> https://github.com/takabow/homebrew-cloudera
 - AWS Environment
-    - Setting up a VPC for Cloudera Director
-    - Creating a security group for Cloudera Director
+    - Setting up a VPC for Cloudera Altus Director
+    - Creating a security group for Cloudera Altus Director
     - See https://www.cloudera.com/documentation/director/latest/topics/director_aws_setup_client.html
 
 ## Creating demo env
 
-1. You need to install Cloudera Director Server/Client on your localhost and accessible by localhost:7189
+1. You need to install Cloudera Altus Director Server/Client on your localhost and accessible by localhost:7189
 
 2. Copy `your-aws-info.conf.template` and create your own `your-aws-info.conf` with
 - AWS_REGION
