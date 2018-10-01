@@ -5,25 +5,31 @@ This is for Demo purposes only. Don't use for production.
 - These scripts install and deploy the following demo environment automatically.
   - CDH Cluster
     - `nonsecure-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
-    - `nonsecure-c5-cluster.conf` (Cloudera Enterprise 5.15.0 Trial)
+    - `nonsecure-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial)
   - Secure CDH Cluster + MIT-KDC
-    - `secure-c5-cluster.conf`  (Cloudera Enterprise 5.15.0 Trial)
+    - `secure-c5-cluster.conf`  (Cloudera Enterprise 5.15.1 Trial)
     - `secure-c6-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
   - Cloudera DWH Demo Cluster + Sample data(airport data)
-    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.0 Trial) 
+    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial) 
     - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
+  - Cloudera IoT Demo Cluster + StreamSets
+    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial + StreamSets Data Collector 3.4.2) 
+    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial + StreamSets Data Collector 3.4.2)
   - Cloudera Data Science Workbench + MIT-KDC + DNS configuration for CDSW
     - `cdsw-secure-c5-cluster.conf` (CDSW 1.4.0 Trial + Cloudera Enterprise 5.15.1 Trial)
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
-  - Cloudera Altus Director 6.0.0 on Mac
-  - CentOS 7.4
+  - Cloudera Altus Director 6.0.0 on Mac/Linux
+  - CentOS 7.4 (not tested on RHEL)
 
 ## Requirement
 
 - Cloudera Altus Director 6.0.0
-    - The simplest way to install Cloudera Altus Director on Mac is here -> https://github.com/takabow/homebrew-cloudera
+    - Mac
+        - The simplest way to install Cloudera Altus Director on Mac is here -> https://github.com/takabow/homebrew-cloudera
+    - Linux
+        - https://www.cloudera.com/documentation/director/latest/topics/director_get_started_aws_install_dir_server.html
 - AWS Environment
     - Setting up a VPC for Cloudera Altus Director
     - Creating a security group for Cloudera Altus Director
@@ -31,7 +37,7 @@ This is for Demo purposes only. Don't use for production.
 
 ## Creating demo env
 
-1. You need to install Cloudera Altus Director Server/Client on your localhost and accessible by localhost:7189
+1. In this example, Cloudera Altus Director Server/Client is installed on your localhost and accessible by localhost:7189
 
 2. Copy `your-aws-info.conf.template` and create your own `your-aws-info.conf` with
 - AWS_REGION
