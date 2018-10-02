@@ -17,3 +17,18 @@ alternatives --install /usr/bin/java java ${JAVA_HOME}/bin/java 1
 alternatives --install /usr/bin/javac javac ${JAVA_HOME}/bin/javac 1
 ln -nfs /usr/java/jdk1.8.0_121-cloudera /usr/java/latest
 ln -nfs /usr/java/latest /usr/java/default
+
+# Use Amazon Time Sync Service - https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/set-time.html
+yum erase -y ntp*
+yum install -y chrony
+cat /etc/chrony.conf | grep "server"
+perl -pi -e 's/^server.*$//g' /etc/chrony.conf
+echo "server 169.254.169.123 prefer iburst" >> /etc/chrony.conf
+cat /etc/chrony.conf | grep "server"
+cat /etc/chrony.conf 
+service chronyd stop
+service chronyd start
+service chronyd status
+chkconfig chronyd on
+chronyc sources -v
+chronyc tracking
