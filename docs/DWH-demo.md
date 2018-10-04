@@ -1,4 +1,4 @@
-# How to use Impala demo
+# How to use DWH demo
 
 ```
 $ ./get_cluster_ip.sh ${CLUSTER_CONF}
