@@ -13,15 +13,15 @@ class color:
     END_CODE = '\033[0m'
 
 CLUSTER_CONFS = [
-    "nonsecure-c5-cluster.conf",
-    "nonsecure-c6-cluster.conf",
-    "secure-c5-cluster.conf",
-    "secure-c6-cluster.conf",
+    "c5-base-cluster.conf",
+    "c6-base-cluster.conf",
+    "c5-secure-cluster.conf",
+    "c6-secure-cluster.conf",
     "demo-dwh-c5-cluster.conf",
     "demo-dwh-c6-cluster.conf",
     "demo-iot-c5-cluster.conf",
     "demo-iot-c6-cluster.conf",
-    "cdsw-secure-c5-cluster.conf"
+    "cdsw-c5-secure-cluster.conf"
 ]
 
 PATHS = [

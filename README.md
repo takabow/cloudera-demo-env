@@ -4,11 +4,11 @@ This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following demo environment automatically.
   - CDH Cluster
-    - `nonsecure-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
-    - `nonsecure-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial)
+    - `c5-base-cluster.conf` (Cloudera Enterprise 5.15.1 Trial)
+    - `c6-base-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
   - Secure CDH Cluster + MIT-KDC
-    - `secure-c5-cluster.conf`  (Cloudera Enterprise 5.15.1 Trial)
-    - `secure-c6-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
+    - `c5-secure-cluster.conf`  (Cloudera Enterprise 5.15.1 Trial)
+    - `c6-secure-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
   - Cloudera DWH Demo Cluster + Sample data(airport data)
     - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial) 
     - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
@@ -16,7 +16,7 @@ This is for Demo purposes only. Don't use for production.
     - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial + StreamSets Data Collector 3.4.2) 
     - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial + StreamSets Data Collector 3.4.2)
   - Cloudera Data Science Workbench + MIT-KDC + DNS configuration for CDSW
-    - `cdsw-secure-c5-cluster.conf` (CDSW 1.4.0 Trial + Cloudera Enterprise 5.15.1 Trial)
+    - `cdsw-c5-secure-cluster.conf` (CDSW 1.4.0 Trial + Cloudera Enterprise 5.15.1 Trial)
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
@@ -191,4 +191,4 @@ You can access to Cloudear Manager, http://10.0.0.50:7180 - (IP addresses change
 ## How to use
 
 - [How to use CDSW demo](/docs/cdsw-demo.md)
-- [How to use Impala demo](/docs/impala-demo.md)
+- [How to use DWH demo](/docs/impala-demo.md)
