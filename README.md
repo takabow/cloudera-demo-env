@@ -6,16 +6,19 @@ This is for Demo purposes only. Don't use for production.
   - CDH Cluster
     - `c5-base-cluster.conf` (Cloudera Enterprise 5.15.1 Trial)
     - `c6-base-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
-  - Secure CDH Cluster + MIT-KDC
+  - CDH Secure Cluster + MIT-KDC
     - `c5-secure-cluster.conf`  (Cloudera Enterprise 5.15.1 Trial)
     - `c6-secure-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
-  - Cloudera DWH Demo Cluster + Sample data(airport data)
+  - CDH HA Cluster
+    - `c5-ha-cluster.conf`  (Cloudera Enterprise 5.15.1 Trial)
+    - `c6-ha-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
+  - Cloudera DWH Demo : CDH Cluster + Sample data(airport data)
     - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial) 
     - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
-  - Cloudera IoT Demo Cluster + StreamSets
+  - Cloudera IoT Demo : CDH Cluster + StreamSets
     - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.15.1 Trial + StreamSets Data Collector 3.4.2) 
     - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial + StreamSets Data Collector 3.4.2)
-  - Cloudera Data Science Workbench + MIT-KDC + DNS configuration for CDSW
+  - Cloudera Data Science Demo : CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
     - `cdsw-c5-secure-cluster.conf` (CDSW 1.4.0 Trial + Cloudera Enterprise 5.15.1 Trial)
 
 - I only tested on following environments
