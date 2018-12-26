@@ -4,22 +4,22 @@ This is for Demo purposes only. Don't use for production.
 
 - These scripts install and deploy the following demo environment automatically.
   - CDH Cluster
-    - `c5-base-cluster.conf` (Cloudera Enterprise 5.16.0 Trial)
-    - `c6-base-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
+    - `c5-base-cluster.conf` (Cloudera Enterprise 5.16.1 Trial)
+    - `c6-base-cluster.conf` (Cloudera Enterprise 6.1.0 Trial)
   - CDH Secure Cluster + MIT-KDC
-    - `c5-secure-cluster.conf`  (Cloudera Enterprise 5.16.0 Trial)
-    - `c6-secure-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
+    - `c5-secure-cluster.conf`  (Cloudera Enterprise 5.16.1 Trial)
+    - `c6-secure-cluster.conf`  (Cloudera Enterprise 6.1.0 Trial)
   - CDH HA Cluster
-    - `c5-ha-cluster.conf`  (Cloudera Enterprise 5.16.0 Trial)
-    - `c6-ha-cluster.conf`  (Cloudera Enterprise 6.0.0 Trial)
+    - `c5-ha-cluster.conf`  (Cloudera Enterprise 5.16.1 Trial)
+    - `c6-ha-cluster.conf`  (Cloudera Enterprise 6.1.0 Trial)
   - Cloudera DWH Demo : CDH Cluster + Sample data(airport data)
-    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.16.0 Trial)
-    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial)
+    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.16.1 Trial)
+    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.1.0 Trial)
   - Cloudera IoT Demo : CDH Cluster + StreamSets
-    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.16.0 Trial + StreamSets Data Collector 3.4.2)
-    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.0.0 Trial + StreamSets Data Collector 3.4.2)
+    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.16.1 Trial + StreamSets Data Collector 3.4.2)
+    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.1.0 Trial + StreamSets Data Collector 3.4.2)
   - Cloudera Data Science Demo : CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-    - `cdsw-c5-secure-cluster.conf` (CDSW 1.4.0 Trial + Cloudera Enterprise 5.15.1 Trial)
+    - `cdsw-c5-secure-cluster.conf` (CDSW 1.4.2 Trial + Cloudera Enterprise 5.16.1 Trial)
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
