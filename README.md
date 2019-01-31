@@ -12,14 +12,9 @@ This is for Demo purposes only. Don't use for production.
   - CDH HA Cluster
     - `c5-ha-cluster.conf`  (Cloudera Enterprise 5.16.1 Trial)
     - `c6-ha-cluster.conf`  (Cloudera Enterprise 6.1.0 Trial)
-  - Cloudera DWH Demo : CDH Cluster + Sample data(airport data)
-    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.16.1 Trial)
-    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.1.0 Trial)
-  - Cloudera IoT Demo : CDH Cluster + StreamSets
-    - `demo-dwh-c5-cluster.conf` (Cloudera Enterprise 5.16.1 Trial + StreamSets Data Collector 3.4.2)
-    - `demo-dwh-c6-cluster.conf` (Cloudera Enterprise 6.1.0 Trial + StreamSets Data Collector 3.4.2)
   - Cloudera Data Science Demo : CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-    - `cdsw-c5-secure-cluster.conf` (CDSW 1.4.2 Trial + Cloudera Enterprise 5.16.1 Trial)
+    - `c5-cdsw-secure-cluster.conf` (CDSW 1.5.0 Trial + Cloudera Enterprise 5.16.1 Trial)
+    - `c6-cdsw-secure-cluster.conf` (CDSW 1.5.0 Trial + Cloudera Enterprise 6.1.0 Trial)
 
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
