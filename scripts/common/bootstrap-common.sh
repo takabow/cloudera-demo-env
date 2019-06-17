@@ -15,17 +15,18 @@ rpm -ivh "http://archive.cloudera.com/director6/6.0.0/redhat7/RPMS/x86_64/oracle
 
 #Use ntpd instead of chrony
 #And Use Amazon Time Sync Service mainly - https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/set-time.html
-yum erase -y chrony
-yum install -y ntp
-cat /etc/ntp.conf
-sed -i -e '/^server/d' /etc/ntp.conf
-echo "server 169.254.169.123 prefer iburst" >> /etc/ntp.conf
-#echo "server time.google.com iburst" >> /etc/ntp.conf
-cat /etc/ntp.conf
+yum erase -y ntp
+yum install -y chrony
+sed -i -e '/^server/d' /etc/chrony.conf
+echo "server 169.254.169.123 prefer iburst" >> /etc/chrony.conf
+echo "server 169.254.169.254 iburst" >> /etc/chrony.conf
+echo "server time.google.com iburst" >> /etc/chrony.conf
+cat /etc/chrony.conf
 service ntpd stop
-service ntpd start
-service ntpd status
-chkconfig ntpd on
-ntptime
-ntpq -p
-ntpq -n -c opeers
+systemctl stop chronyd
+systemctl start chronyd
+systemctl status chronyd
+
+chronyc tracking
+chronyc sources
+chronyc sourcestats
