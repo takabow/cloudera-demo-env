@@ -1,0 +1,46 @@
+## Your GCP information
+GCP_PROJECT_ID:        your-project-id         #Your GCP Project ID
+GCP_REGION:            asia-northeast1         #Your GCP reegion
+GCP_ZONE:              asia-northeast1-c       #Your GCP zone
+GCP_VPC_NETWORK:       your-network            #Your GCP network
+GCP_VPC_SUBNET:        your-subnet             #Your GCP subnet
+
+OS_USERNAME:           yourname                #OS Super user (e.g. centos, ec2-user)
+KEY_PAIR:              your-keypair-on-gcp.pem  #SSH Private key, Set /full/path/to/your-private-key.pem
+GCP_OS_IMAGE:          "https://www.googleapis.com/compute/v1/projects/centos-cloud/global/images/centos-7-v20180815"  #An CentOS7 OS image on GCP
+
+## Instance Configurations
+INSTANCE_TYPE_CM:        n1-standard-4     #vCPU 4, RAM 15G
+INSTANCE_TYPE_MASTER:    n1-standard-2     #vCPU 2, RAM 7.5G
+INSTANCE_TYPE_WORKER:    n1-standard-2     #vCPU 2, RAM 7.5G
+INSTANCE_TYPE_GW:        n1-standard-2     #vCPU 2, RAM 7.5G
+INSTANCE_TYPE_CDSW:      n1-standard-4     #vCPU 4, RAM 15G
+INSTANCE_TYPE_KAFKA:     n1-standard-2     #vCPU 2, RAM 7.5G
+
+# Optional settings
+WORKER_NODE_NUM:         3            #Number of Worker Nodes
+INSTANCE_NAME_PREFIX:  cdsw-demo      #Prefix of instance name
+INSTANCE_OWNER_TAG:    your_name       #"owner" tag of incetances
+
+
+### GCP Provider - DO NOT CHANGE THIS SECTION ###
+provider {
+    type: google
+    projectId: ${?GCP_PROJECT_ID}
+    region: ${?GCP_REGION}
+    jsonKey: ${?GCP_JSON_KEY}
+    instanceNamePrefix: ${?INSTANCE_NAME_PREFIX}
+}
+
+common-instance-properties {
+    image: ${?GCP_OS_IMAGE}
+    networkName: ${?GCP_VPC_NETWORK}
+    subnetworkName: ${GCP_VPC_SUBNET}
+    region: ${?GCP_REGION}
+    zone: ${?GCP_ZONE}
+    dataDiskCount: 0
+
+    tags {
+        owner: ${?INSTANCE_OWNER_TAG}
+    }
+}

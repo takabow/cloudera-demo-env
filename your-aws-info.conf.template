@@ -1,15 +1,44 @@
+## Your AWS information
 AWS_REGION:            ap-xxxxxxxxx-1          #Your AWS region
 AWS_SUBNET_ID:         subnet-xxxxxxx          #Your Subnet ID
 AWS_SECURITY_GROUP:    sg-xxxxxxxx             #Your Security Group
-KEY_PAIR:              your-keypair-on-aws.pem #Your AWS Keypair, Set /full/path/to/your-keypair-on-aws.pem
 
 OS_USERNAME:           centos                  #OS Super user (e.g. centos, ec2-user)
+KEY_PAIR:              your-keypair-on-aws.pem #Your AWS Keypair, Set /full/path/to/your-keypair-on-aws.pem
 AWS_AMI:               ami-xxxxxxxx            #An CentOS7/RHEL7 AMI on Your AWS Region (e.g. ami-25bd2743 is CentOS 7.4 on Tokyo region)
                                                #AMI ids are different depending on the regions, please check your region - https://wiki.centos.org/Cloud/AWS
                                                #Note: Some scripts depend on CentOS7/RHEL7 os command and I only tested on CentOS 7.4
 
-INSTANCE_NAME_PREFIX:  cdsw-demo               #Prefix of ec2 instance name
+## Instance Configurations
+INSTANCE_TYPE_CM:        m5.xlarge    #vCPU 4, RAM 16G
+INSTANCE_TYPE_MASTER:    m5.large     #vCPU 2, RAM 8G
+INSTANCE_TYPE_WORKER:    m5.large     #vCPU 2, RAM 8G
+INSTANCE_TYPE_GW:        m5.large     #vCPU 2, RAM 8G
+INSTANCE_TYPE_CDSW:      m5.xlarge    #vCPU 4, RAM 16G
+INSTANCE_TYPE_KAFKA:     m5.large     #vCPU 2, RAM 8G
+
+# Optional settings
+WORKER_NODE_NUM:         3            #Number of Worker Nodes
+INSTANCE_NAME_PREFIX:  cdsw-demo      #Prefix of instance name
+INSTANCE_OWNER_TAG:    your_name       #"owner" tag of incetances
 
 
-# Optional - Ignore these fields if you don't need.
-INSTANCE_OWNER_TAG:    your_name               #"owner" tag of ec2 incetance
+### AWS Provider - DO NOT CHANGE THIS SECTION ###
+provider {
+    type: aws
+    accessKeyId: ${?AWS_ACCESS_KEY_ID}
+    secretAccessKey: ${?AWS_SECRET_ACCESS_KEY}
+    region: ${?AWS_REGION}
+    subnetId: ${?AWS_SUBNET_ID}
+    securityGroupsIds: ${?AWS_SECURITY_GROUP}
+}
+
+common-instance-properties {
+    image: ${?AWS_AMI}
+    tags {
+        owner: ${?INSTANCE_OWNER_TAG}
+    }
+    ebsVolumeCount : 4
+	ebsVolumeType: gp2
+	ebsVolumeSizeGiB: 100
+}

@@ -5,9 +5,8 @@ CD_HOST_PORT="localhost:7189"
 CD_USER_NAME="admin"
 CD_USER_PASS="admin"
 
-OS_USERNAME=`cat your-aws-info.conf | grep OS_USERNAME: | awk '{print $2}'`
-KEY_PAIR=`cat your-aws-info.conf | grep KEY_PAIR: | awk '{print $2}'`
-
+AWS_KEY_PAIR=`cat your-aws-info.conf | grep KEY_PAIR: | awk '{print $2}'`
+GCP_KEY_PAIR=`cat your-gcp-info.conf | grep KEY_PAIR: | awk '{print $2}'`
 
 ENV_NAMES=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print("\n".join([quote(str(i)) for i in json.load(sys.stdin)]))'`
 
@@ -36,6 +35,16 @@ for ENV_NAME in $ENV_NAMES; do
     DEPLOYMENT_NAME=`echo ${DEPLOYMENT_NAMES} | python -c 'import sys, json; from six.moves.urllib.parse import quote; print(quote(json.load(sys.stdin)[0]))'`
     CLUSTER_NAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/clusters/ | python -c 'import sys, json; from six.moves.urllib.parse import quote; print(quote(json.load(sys.stdin)[0]))'`
 
+    OS_USERNAME=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["credentials"]["username"])'`
+    PROVIDOR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["provider"]["type"])'`
+    if [ "$PROVIDOR" = "aws" ]; then
+        KEY_PAIR=${AWS_KEY_PAIR} 
+    elif [ "$PROVIDOR" = "google" ]; then
+        KEY_PAIR=${GCP_KEY_PAIR} 
+    else
+        KEY_PAIR="</path/to/your/private-key>"
+    fi
+    
     #Get CM IP Addrs on AWS
     CM_PUBLIC_IPADDR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["managerInstance"]["properties"]["publicIpAddress"])'`
     CM_PRIVATE_IPADDR=`curl -s -u ${CD_USER_NAME}:${CD_USER_PASS} http://${CD_HOST_PORT}/api/v8/environments/${ENV_NAME}/deployments/${DEPLOYMENT_NAME}/ |  python -c 'import sys, json; print(json.load(sys.stdin)["managerInstance"]["properties"]["privateIpAddress"])'`
