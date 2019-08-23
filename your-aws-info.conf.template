@@ -38,4 +38,7 @@ common-instance-properties {
     tags {
         owner: ${?INSTANCE_OWNER_TAG}
     }
+    ebsVolumeCount : 4
+	ebsVolumeType: gp2
+	ebsVolumeSizeGiB: 100
 }
