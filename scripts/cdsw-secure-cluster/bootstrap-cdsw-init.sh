@@ -8,6 +8,26 @@ date
 # Worker node identifier
 touch /root/cdsw
 
+# Install Required Packages for CDSW 
+yum -y install nfs-utils
+yum -y install libseccomp
+yum -y install lvm2
+yum -y install bridge-utils
+yum -y install libtool-ltdl
+yum -y install iptables
+yum -y install rsync
+yum -y install policycoreutils-python
+yum -y install selinux-policy-base
+yum -y install selinux-policy-targeted
+yum -y install ntp
+yum -y install ebtables
+yum -y install bind-utils
+yum -y install nmap-ncat
+yum -y install openssl
+yum -y install e2fsprogs
+yum -y install redhat-lsb-core
+yum -y install socat
+
 # Mount one volume for application data
 device="/dev/xvdh"
 mount="/var/lib/cdsw"
