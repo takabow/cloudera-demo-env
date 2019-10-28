@@ -19,9 +19,10 @@ INSTANCE_TYPE_KAFKA:     m5.large     #vCPU 2, RAM 8G
 
 # Optional settings
 WORKER_NODE_NUM:         3            #Number of Worker Nodes
-INSTANCE_NAME_PREFIX:  cdsw-demo      #Prefix of instance name
-INSTANCE_OWNER_TAG:    your_name       #"owner" tag of incetances
-
+INSTANCE_NAME_PREFIX:  your_name-demo #Prefix of instance name
+INSTANCE_OWNER_TAG:    "your_email_address"              #"owner" tag of ec2 incetances
+INSTANCE_ENDDATE_TAG:    enddate_to_use_this_environment #"enddate" tag of ec2 incetance
+INSTANCE_PROJECT_TAG:    project_to_use_this_environment #"project" tag of ec2 incetance
 
 ### AWS Provider - DO NOT CHANGE THIS SECTION ###
 provider {
@@ -37,6 +38,8 @@ common-instance-properties {
     image: ${?AWS_AMI}
     tags {
         owner: ${?INSTANCE_OWNER_TAG}
+        enddate: ${?INSTANCE_ENDDATE_TAG}
+        project: ${?INSTANCE_PROJECT_TAG}
     }
     ebsVolumeCount : 4
 	ebsVolumeType: gp2
