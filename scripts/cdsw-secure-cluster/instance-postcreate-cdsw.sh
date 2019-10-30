@@ -30,7 +30,13 @@ chattr +i /etc/resolv.conf
 yum -y install epel-release
 yum -y install jq
 
-CDSW_DOMAIN="cdsw.$(hostname -i).xip.io"
+
+# Use Private IP
+#CDSW_DOMAIN="cdsw.$(hostname -i).xip.io"
+# Use Public IP
+PUBLIC_IP=`curl https://api.ipify.org/`
+CDSW_DOMAIN=$PUBLIC_IP
+
 CDSW_SERVICE_NAME=$(curl -s -u ${CM_USERNAME}:${CM_PASSWORD} http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services |  jq -r '.items[] | select( .type == "CDSW") | .name')
 curl -X PUT -H "Content-Type:application/json" -u ${CM_USERNAME}:${CM_PASSWORD} -d '{ "items": [ { "name": "cdsw.domain.config", "value": "'${CDSW_DOMAIN}'" }] }' http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services/${CDSW_SERVICE_NAME}/config
 curl -X POST -u ${CM_USERNAME}:${CM_PASSWORD} http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services/${CDSW_SERVICE_NAME}/commands/restart
