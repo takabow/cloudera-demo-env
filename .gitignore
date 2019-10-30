@@ -4,3 +4,5 @@ six.pyc
 __pycache__/
 your-aws-info.conf
 your-gcp-info.conf
+bootstrap.sh
+terminate.sh
