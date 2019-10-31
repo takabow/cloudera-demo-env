@@ -38,9 +38,10 @@ sudo iptables -t mangle -F
 sudo iptables -F
 sudo iptables -X
 
+# This does not work here. Move to another script.
 # `cdsw validate` command gives a warning when ipv6 is disabled.
-sudo sed -i "s/net.ipv6.conf.all.disable_ipv6=1/net.ipv6.conf.all.disable_ipv6=0/" /etc/sysctl.conf
-sudo sysctl -p
+#sudo sed -i "s/net.ipv6.conf.all.disable_ipv6=1/net.ipv6.conf.all.disable_ipv6=0/" /etc/sysctl.conf
+#sudo sysctl -p
 
 # It is not mandatory but for better performance to have a separate partition for /va/lib/cdsw.
 # As I found that hard-coded block device path could cause a problem because it is named by AWS, I comment out this section.
