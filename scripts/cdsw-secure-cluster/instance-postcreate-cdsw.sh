@@ -37,8 +37,12 @@ yum -y install jq
 PUBLIC_IP=`curl https://api.ipify.org/`
 CDSW_DOMAIN=cdsw.${PUBLIC_IP}.xip.io
 
+CDSW_MASTER_IP=`hostname -i | tr -d '[:space:]'`
+# -I option brings three IPs.
+#CDSW_MASTER_IP=`hostname -I | tr -d '[:space:]'`
+
 CDSW_SERVICE_NAME=$(curl -s -u ${CM_USERNAME}:${CM_PASSWORD} http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services |  jq -r '.items[] | select( .type == "CDSW") | .name')
-curl -X PUT -H "Content-Type:application/json" -u ${CM_USERNAME}:${CM_PASSWORD} -d '{ "items": [ { "name": "cdsw.domain.config", "value": "'${CDSW_DOMAIN}'" }] }' http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services/${CDSW_SERVICE_NAME}/config
+curl -X PUT -H "Content-Type:application/json" -u ${CM_USERNAME}:${CM_PASSWORD} -d '{ "items": [ { "name": "cdsw.domain.config", "value": "'${CDSW_DOMAIN}'" },{ "name": "cdsw.master.ip.config", "value": "'${CDSW_MASTER_IP}'" }] }' http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services/${CDSW_SERVICE_NAME}/config
 curl -X POST -u ${CM_USERNAME}:${CM_PASSWORD} http://${DEPLOYMENT_HOST_PORT}/api/v19/clusters/${CLUSTER_NAME}/services/${CDSW_SERVICE_NAME}/commands/restart
 sleep 10
 
