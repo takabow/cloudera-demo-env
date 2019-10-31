@@ -30,6 +30,9 @@ chattr +i /etc/resolv.conf
 yum -y install epel-release
 yum -y install jq
 
+# `cdsw validate` command gives a warning when ipv6 is disabled.
+sudo sed -i "s/net.ipv6.conf.all.disable_ipv6=1/net.ipv6.conf.all.disable_ipv6=0/" /etc/sysctl.conf
+sudo sysctl -p
 
 # Use Private IP
 #CDSW_DOMAIN="cdsw.$(hostname -i).xip.io"
