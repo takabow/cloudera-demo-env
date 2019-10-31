@@ -14,7 +14,8 @@ INSTANCE_TYPE_CM:        m5.xlarge    #vCPU 4, RAM 16G
 INSTANCE_TYPE_MASTER:    m5.large     #vCPU 2, RAM 8G
 INSTANCE_TYPE_WORKER:    m5.large     #vCPU 2, RAM 8G
 INSTANCE_TYPE_GW:        m5.large     #vCPU 2, RAM 8G
-INSTANCE_TYPE_CDSW:      m5.xlarge    #vCPU 4, RAM 16G
+# Note: 8vCPU is minimal for CDSW. With 4vCPU, pods don't start properly.
+INSTANCE_TYPE_CDSW:      t2.2xlarge   #vCPU 8, RAM 32G
 INSTANCE_TYPE_KAFKA:     m5.large     #vCPU 2, RAM 8G
 
 # Optional settings
