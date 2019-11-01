@@ -88,7 +88,8 @@ CDSW_DOCKER_VOLUME_GB:   1000
 
 Block device is named by AWS (The item below is not for AWS but CDSW). 
 ```
-CDSW_DOCKER_DEVICES_CONFIG: "/dev/nvme1n1"
+# Note: AWS EC2 't2.2xlarge'
+CDSW_DOCKER_DEVICES_CONFIG: "/dev/sdb"
 ```
 
 ## CDSW node
