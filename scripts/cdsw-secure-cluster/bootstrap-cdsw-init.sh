@@ -38,25 +38,21 @@ sudo iptables -t mangle -F
 sudo iptables -F
 sudo iptables -X
 
-# This does not work here. Move to another script.
-# `cdsw validate` command gives a warning when ipv6 is disabled.
-#sudo sed -i "s/net.ipv6.conf.all.disable_ipv6=1/net.ipv6.conf.all.disable_ipv6=0/" /etc/sysctl.conf
-#sudo sysctl -p
-
 # It is not mandatory but for better performance to have a separate partition for /va/lib/cdsw.
 # As I found that hard-coded block device path could cause a problem because it is named by AWS, I comment out this section.
 #
 # Mount one volume for application data
-#device="/dev/xvdh"
-#mount="/var/lib/cdsw"
-#
-#echo "Making file system"
-#mkfs.ext4 -F -E lazy_itable_init=1 "$device" -m 0
-#
-#echo "Mounting $device on $mount"
-#if [ ! -e "$mount" ]; then
-#    mkdir -p "$mount"
-#fi
-#
-#mount -o defaults,noatime "$device" "$mount"
-#echo "$device $mount ext4 defaults,noatime 0 0" >> /etc/fstab
+# Note: AWS EC2 't2.2xlarge'
+device="/dev/sdc"
+mwas ount="/var/lib/cdsw"
+
+echo "Making file system"
+mkfs.ext4 -F -E lazy_itable_init=1 "$device" -m 0
+
+echo "Mounting $device on $mount"
+if [ ! -e "$mount" ]; then
+    mkdir -p "$mount"
+fi
+
+mount -o defaults,noatime "$device" "$mount"
+echo "$device $mount ext4 defaults,noatime 0 0" >> /etc/fstab
