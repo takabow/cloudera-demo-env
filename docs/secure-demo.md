@@ -11,7 +11,7 @@ grant role dba to group user1;
 
 ### TLS/SSL
 
-Deployments using a custom Certificate Authority (signed by either their organisation's internal CA or a non-default CA) see HTTP Error 500 when attempting to launch the Terminal or Jupyter Notebook sessions from the Workbench
+>Deployments using a custom Certificate Authority (signed by either their organisation's internal CA or a non-default CA) see HTTP Error 500 when attempting to launch the Terminal or Jupyter Notebook sessions from the Workbench
 
 Workarounds are described below but it is not implemented in the script of this repository.
 
