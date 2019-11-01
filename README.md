@@ -15,17 +15,20 @@ This is for Demo purposes only. Don't use for production.
   - Cloudera Data Science Demo : CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
     - `c5-cdsw-secure-cluster.conf` (CDSW 1.6.0 Trial + Cloudera Enterprise 5.16.1 Trial)
     - `c6-cdsw-secure-cluster.conf` (CDSW 1.6.0 Trial + Cloudera Enterprise 6.3.0 Trial)
-
+  - Cloudera Data Science 1.6.1
+    - `c6_3_1-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.1 Trial)
+  
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
-  - Cloudera Altus Director 6.2.1 on Mac/Linux
   - CentOS 7.4 (not tested on RHEL)
+  - Cloudera Altus Director 6.2.1 on Mac/Linux
+  - Cloudera Altus Director 6.3.0 on Mac (for Cloudera Data Science 1.6.1)
 
 ## Requirement
 
 - Cloudera Altus Director 6.3.0
     - Mac
-        - The simplest way to install Cloudera Altus Director on Mac is here -> https://github.com/takabow/homebrew-cloudera
+        - The simplest way to install Cloudera Altus Director on Mac is here -> https://github.com/YoshiyukiKono/homebrew-cloudera
     - Linux
         - https://www.cloudera.com/documentation/director/latest/topics/director_get_started_aws_install_dir_server.html
 - AWS Environment
