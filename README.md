@@ -193,3 +193,4 @@ You can access to Cloudear Manager, http://10.0.0.50:7180 - (IP addresses change
 
 - [How to use CDSW demo](/docs/cdsw-demo.md)
 - [How to use DWH demo](/docs/DWH-demo.md)
+- [How to use Secure Cluster](/docs/secure-demo.md)
