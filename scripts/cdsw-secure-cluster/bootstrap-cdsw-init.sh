@@ -43,7 +43,7 @@ sudo iptables -X
 #
 # Mount one volume for application data
 # Note: AWS EC2 't2.2xlarge'
-device="/dev/sdg"
+device="/dev/xvdg"
 mwas ount="/var/lib/cdsw"
 
 echo "Making file system"
