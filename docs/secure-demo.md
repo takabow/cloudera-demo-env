@@ -20,7 +20,7 @@ https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw
 ```
 sudo yum install wget
 sudo wget https://www.cloudera.com/documentation/other/shared/ca-certificates.crt
-sudo sh -c "cat localhost.crt >> ca-certificates.crt" 
+sudo sh -c "cat /etc/ssl/certs/localhost.crt >> /etc/ssl/certs/ca-certificates.crt" 
 ```
 TODO: Need to be scriptized to remove the last line of ca-certificates.crt and the first line of localhost.crt
 ```
