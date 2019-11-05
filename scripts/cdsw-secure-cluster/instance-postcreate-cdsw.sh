@@ -35,10 +35,11 @@ sudo sed -i "s/net.ipv6.conf.all.disable_ipv6=1/net.ipv6.conf.all.disable_ipv6=0
 sudo sysctl -p
 
 # Use Private IP
-#CDSW_DOMAIN="cdsw.$(hostname -i).xip.io"
+CDSW_DOMAIN="cdsw.$(hostname -i).xip.io"
+# Note: This option to use Public IP did not work with CDSW1.6 (Terminal does not show up properly).
 # Use Public IP
-PUBLIC_IP=`curl https://api.ipify.org/`
-CDSW_DOMAIN=cdsw.${PUBLIC_IP}.xip.io
+#PUBLIC_IP=`curl https://api.ipify.org/`
+#CDSW_DOMAIN=cdsw.${PUBLIC_IP}.xip.io
 
 CDSW_MASTER_IP=`hostname -i | tr -d '[:space:]'`
 # -I option brings three IPs.
