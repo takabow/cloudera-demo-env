@@ -82,8 +82,14 @@ INSTANCE_TYPE_CDSW:      t2.2xlarge   #vCPU 8, RAM 32G
 
 WORKER_NODE_NUM:         3            #Number of Worker Nodes
 
-CDSW_DOCKER_VOLUME_NUM:  3
-CDSW_DOCKER_VOLUME_GB:   200
+CDSW_DOCKER_VOLUME_NUM:  1
+CDSW_DOCKER_VOLUME_GB:   1000
+```
+
+Block device is named by AWS (The item below is not for AWS but CDSW). 
+```
+# Note: AWS EC2 't2.2xlarge'
+CDSW_DOCKER_DEVICES_CONFIG: "/dev/sdb"
 ```
 
 ## CDSW node

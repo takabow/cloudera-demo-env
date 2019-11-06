@@ -28,8 +28,22 @@ yum -y install e2fsprogs
 yum -y install redhat-lsb-core
 yum -y install socat
 
+# https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_requirements_supported_versions.html
+# Disable all pre-existing iptables rules. While Kubernetes makes extensive use of iptables, it’s difficult to predict how pre-existing iptables rules will interact with the rules inserted by Kubernetes. Therefore, Cloudera recommends you use the following commands to disable all pre-existing rules before you proceed with the installation.
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -t nat -F
+sudo iptables -t mangle -F
+sudo iptables -F
+sudo iptables -X
+
+# It is not mandatory but for better performance to have a separate partition for /va/lib/cdsw.
+# As I found that hard-coded block device path could cause a problem because it is named by AWS, I comment out this section.
+#
 # Mount one volume for application data
-device="/dev/xvdh"
+# Note: AWS EC2 't2.2xlarge'
+device="/dev/xvdg"
 mount="/var/lib/cdsw"
 
 echo "Making file system"
