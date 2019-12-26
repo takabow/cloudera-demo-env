@@ -80,7 +80,7 @@ Here is what I referred to:
 You may want to access the latest information:
 [Create a Custom CUDA-capable Engine Image](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html)
 
-### Check whethr it works or not
+### Test the Custom CUDA Engine
 #### PyTorch
 ```
 !pip3 install torch
