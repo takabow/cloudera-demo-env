@@ -69,6 +69,7 @@ You may want to access the latest information:
 [Using NVIDIA GPUs for Cloudera Data Science Workbench Projects](https://docs.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html#custom_cuda_engine)
 
 I built a sample CUDA-capable engine image. If you want to use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`), you can add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
+
 [Notes on building the image](./cdsw-engine.md)
 
 For more details, please read the following document.
@@ -77,8 +78,7 @@ Here is what I referred to:
 [Create a Custom CUDA-capable Engine Image](https://www.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html)
 
 You may want to access the latest information:
-[Create a Custom CUDA-capable Engine Image]
-(https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html)
+[Create a Custom CUDA-capable Engine Image](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html)
 
 ## EC2 Instances
 
