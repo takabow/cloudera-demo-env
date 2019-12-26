@@ -24,18 +24,29 @@ $ ssh -i your-aws-sshkey.pem -D 8157 -q centos@54.65.50.23
 
 After above, you can access to http://cdsw.10.0.0.44.xip.io (IP 10.0.0.44 changes every time) from your web browser via SSH SOCKS Proxy (See https://www.cloudera.com/documentation/director/latest/topics/director_security_socks.html).
 
-
+## Secure Cluster
 - Access to CDSW from browser.
 - Click "**Sign Up for a New Account**" and create a new account. This username doesn't relate to existing OS users or Kerberos principals. Therefore you can create any users.
     - e.g.)
     - Full Name: Demo User1
     - Username: user1
     - Email: user1@localhost.localdomain
-    - Password: user1user1
+    - Password: <any word>
 - After logging in, authenticate against your cluster’s Kerberos KDC by going to the top-right dropdown menu and clicking **Settings** -> **Hadoop Authentication**. You can use the prepared principals `user1@HADOOP` and so on. Please read the following "Users and Authentication" section.
     - e.g.)
     - Principal: user1@HADOOP
     - Password: user1
+    
+## Unsecure Cluster
+- Access to CDSW from browser.
+- Click "**Sign Up for a New Account**" and create a new account. This username *DOES* relate to existing OS users.
+    - e.g.)
+    - Full Name: Demo User1
+    - Username: user1
+    - Email: user1@localhost.localdomain
+    - Password: <any word>
+- It's okay to remain blank in **Settings** -> **Hadoop Authentication**.
+ 
 
 ## Users and Authentication
 
