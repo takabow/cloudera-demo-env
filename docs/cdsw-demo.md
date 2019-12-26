@@ -80,6 +80,22 @@ Here is what I referred to:
 You may want to access the latest information:
 [Create a Custom CUDA-capable Engine Image](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html)
 
+### Check whethr it works or not
+#### PyTorch
+```
+!pip3 install torch
+from torch import cuda
+assert cuda.is_available()
+assert cuda.device_count() > 0
+print(cuda.get_device_name(cuda.current_device()))
+```
+#### TensorFlow
+```
+!pip3 install tensorflow-gpu==1.13.1
+from tensorflow.python.client import device_lib
+assert 'GPU' in str(device_lib.list_local_devices())
+device_lib.list_local_devices()
+```
 ## EC2 Instances
 
 If you change instance type, you can modify first section of `cdsw-secure-cluster.conf`.
