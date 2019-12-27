@@ -81,20 +81,31 @@ Here is what I referred to:
 You may want to access the latest information:
 [Using NVIDIA GPUs for Cloudera Data Science Workbench Projects](https://docs.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html#custom_cuda_engine)
 
+[Notes on building the image](./cdsw-engine.md)
+
 ### CDSW Settings
 
 #### Engine Images
 you must add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
-I built a sample CUDA-capable engine image. If you want to use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`), 
+I built a sample CUDA-capable engine image. You may use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`).
+
+**Note:** If you wan to use Jupyter notebook with custome engine images, you need to add an Editor entry.
+
+1. Under Engine Images, click the Edit button for the customized engine image that you want to configure for Jupyter Notebook.
+1. Click New Editor.
+1. Complete the fields:
+
+Name: Enter `Jupyter Notebook`.
+Command: Enter the command to start Jupyter Notebook. This command is:
+```
+/usr/local/bin/jupyter-notebook --no-browser --ip=127.0.0.1 --port=${CDSW_APP_PORT} --NotebookApp.token= --NotebookApp.allow_remote_access=True --log-level=ERROR
+```
 
 #### Maximum GPUs
 **Admin** -> **Engines** -> **Engine Profiles** -> **Maximum GPUs per Session/Job**
 
 You must increase the number from 0 to 1 or higher.
 
-
-
-[Notes on building the image](./cdsw-engine.md)
 
 For more details, please read the following document.
 
