@@ -57,7 +57,15 @@ https://www.tensorflow.org/install/source#linux
 
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
-|tensorflow_gpu-1.13.1|2.7, 3.3-3.7|7.4|10.0|
+|tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|7.4|10.0|
+
+**Note:** 
+When using tensorflow_gpu-1.1.13.1, I faced the following error.
+```
+ImportError: libcublas.so.10.0
+```
+There was no `libcublas.so.10.0` under `/usr/local/cuda/lib64` but `libcudart.so.10.0`.
+Then, when I tried to install the upper version, I succeeded the test mentioned below.
 
 ## PyTorch
 https://pytorch.org/
@@ -69,6 +77,43 @@ https://pytorch.org/
 ## Driver
 https://www.nvidia.com/Download/index.aspx?lang=en-us
 
-|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link |
-|---|---|---|---|---|
-|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run|
+|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link | for | 
+|---|---|---|---|---|---|
+|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run| TensorFlow |
+|p2(.8xlarge)|K80|10.1|418.116.00| hhttp://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run| PyTorch |
+## Test
+
+#### PyTorch
+```
+!pip3 install torch
+from torch import cuda
+assert cuda.is_available()
+assert cuda.device_count() > 0
+print(cuda.get_device_name(cuda.current_device()))
+```
+#### TensorFlow
+```
+#!pip3 install tensorflow-gpu==1.13.1
+!pip3 install tensorflow-gpu==1.14.0
+from tensorflow.python.client import device_lib
+assert 'GPU' in str(device_lib.list_local_devices())
+device_lib.list_local_devices()
+
+mnist = tf.keras.datasets.mnist
+
+(x_train, y_train),(x_test, y_test) = mnist.load_data()
+x_train, x_test = x_train / 255.0, x_test / 255.0
+
+model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(),
+  tf.keras.layers.Dense(512, activation=tf.nn.relu),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+])
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=5)
+model.evaluate(x_test, y_test)
+```
