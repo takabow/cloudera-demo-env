@@ -63,13 +63,15 @@ After above, you can access to http://cdsw.10.0.0.44.xip.io (IP 10.0.0.44 change
 
 ## CDSW w/ GPU Support
 
+### Director Config
 If you want to use GPU from CDSW, you can use `cdsw-gpu-secure-cluster.conf` instead of `cdsw-secure-cluster.conf`
 
 ```
 $ cloudera-director bootstrap-remote c6_3_1-cdsw1_6_1-gpu-minimum.conf --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
 ```
-
 By default, this conf boot up `p2.8xlarge` instance.
+
+### Engine Image
 
 You also need to create a custom CUDA-capable Engine Image.
 
@@ -79,7 +81,18 @@ Here is what I referred to:
 You may want to access the latest information:
 [Using NVIDIA GPUs for Cloudera Data Science Workbench Projects](https://docs.cloudera.com/documentation/data-science-workbench/latest/topics/cdsw_gpu.html#custom_cuda_engine)
 
-I built a sample CUDA-capable engine image. If you want to use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`), you can add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
+### CDSW Settings
+
+#### Engine Images
+you must add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
+I built a sample CUDA-capable engine image. If you want to use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`), 
+
+#### Maximum GPUs
+**Admin** -> **Engines** -> **Engine Profiles** -> **Maximum GPUs per Session/Job**
+
+You must increase the number from 0 to 1 or higher.
+
+
 
 [Notes on building the image](./cdsw-engine.md)
 
