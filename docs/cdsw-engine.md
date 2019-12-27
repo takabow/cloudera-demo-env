@@ -49,3 +49,14 @@ sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:8  . -f c
 sudo docker login -u yoshiyukikono
 sudo docker push yoshiyukikono/cdsw-cuda:8
 ```
+
+# Compatibility
+## TensorFlow
+
+https://www.tensorflow.org/install/source#linux
+|Version|Python version| cuDNN| CUDA |
+|tensorflow_gpu-1.13.1|2.7, 3.3-3.7|7.4|10.0|
+
+## PyTorch
+|Version|Python version| cuDNN| CUDA |
+|PyTorch1.3|2.7, 3.5-3.7|-|10.1|
