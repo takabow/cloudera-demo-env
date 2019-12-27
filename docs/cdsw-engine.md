@@ -54,6 +54,7 @@ sudo docker push yoshiyukikono/cdsw-cuda:8
 ## TensorFlow
 
 https://www.tensorflow.org/install/source#linux
+
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
 |tensorflow_gpu-1.13.1|2.7, 3.3-3.7|7.4|10.0|
@@ -64,3 +65,10 @@ https://pytorch.org/
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
 |PyTorch1.3|2.7, 3.5-3.7|-|10.1|
+
+## Driver
+https://www.nvidia.com/Download/index.aspx?lang=en-us
+
+|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link |
+|---|---|---|---|---|
+|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run|
