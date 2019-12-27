@@ -60,7 +60,7 @@ https://www.tensorflow.org/install/source#linux
 |tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|7.4|10.0|
 
 **Note:** 
-When using tensorflow_gpu-1.1.13.1, I faced the following error.
+When using tensorflow_gpu-1.13.1, I faced the following error.
 ```
 ImportError: libcublas.so.10.0
 ```
