@@ -32,6 +32,7 @@ This is for Demo purposes only. Don't use for production.
 - Cloudera Altus Director 6.3.0
     - Mac
         - The simplest way to install Cloudera Altus Director on Mac is here -> https://github.com/YoshiyukiKono/homebrew-cloudera
+        When you install Director in this way, you can find application log at `/usr/local/Cellar/cloudera-director-server/6.3.0/libexec/logs/application.log`
     - Linux
         - https://www.cloudera.com/documentation/director/latest/topics/director_get_started_aws_install_dir_server.html
 - AWS Environment
