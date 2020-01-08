@@ -13,7 +13,8 @@ AWS_AMI:               ami-xxxxxxxx            #An CentOS7/RHEL7 AMI on Your AWS
 WORKER_NODE_NUM:         3              #Number of Worker Nodes
 INSTANCE_NAME_PREFIX:    your_name-demo #Prefix of instance name
 INSTANCE_OWNER_TAG:      "your_email_address"            #"owner" tag of ec2 instance
-INSTANCE_ENDDATE_TAG:    enddate_to_use_this_environment #"enddate" tag of ec2 instance
+# Changed to set enddate in bootstrap.sh
+#INSTANCE_ENDDATE_TAG:    enddate_to_use_this_environment #"enddate" tag of ec2 instance
 INSTANCE_PROJECT_TAG:    project_to_use_this_environment #"project" tag of ec2 instance
 
 ######################################################
