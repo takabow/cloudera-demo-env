@@ -117,3 +117,18 @@ model.compile(optimizer='adam',
 model.fit(x_train, y_train, epochs=5)
 model.evaluate(x_test, y_test)
 ```
+
+```
+watch nvidia-smi
+```
+```bash
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 418.116.00   Driver Version: 418.116.00   CUDA Version: 10.1     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla K80           On   | 00000000:00:19.0 Off |                    0 |
+| N/A   66C    P0   135W / 149W |   1160MiB / 11441MiB |     92%      Default |
++-------------------------------+----------------------+----------------------+
+```
