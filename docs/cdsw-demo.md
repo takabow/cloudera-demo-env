@@ -89,7 +89,10 @@ You may want to access the latest information:
 you must add the image by going to the top-right dropdown menu and clicking **Admin** -> **Engines** -> **Engine Images**.
 I built a sample CUDA-capable engine image. You may use [my image](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/) (`yoshiyukikono/cdsw-cuda:8`).
 
-**Note:** If you wan to use Jupyter notebook with custome engine images, you need to add an Editor entry.
+**Note:** When you start a new session for the first time, it will take pretty longer time than usual beause the above engine image is downloaded at that time.
+
+##### Jupyter notebook
+If you want to use Jupyter notebook with custome engine images, you need to add an Editor entry.
 
 1. Under Engine Images, click the Edit button for the customized engine image that you want to configure for Jupyter Notebook.
 1. Click New Editor.
