@@ -118,6 +118,12 @@ watch nvidia-smi
 ```
 
 #### TensorFlow
+https://github.com/tensorflow/tensorflow/issues/30748
+
+>I met the same problem on ubuntu 18.04, cuda 10.1 and Tensorflow 1.14.0. However, I uninstalled the pip version tensorflow using pip uninstall tensorflow-gpu and then use conda install -c anaconda tensorflow-gpu to install conda version, and it works for me. You can have a try. @AmitMY
+```
+!conda install tensorflow-gpu==1.14.0
+```
 ```
 #!pip3 install tensorflow-gpu==1.13.1
 !pip3 install tensorflow-gpu==1.14.0
@@ -125,7 +131,7 @@ from tensorflow.python.client import device_lib
 assert 'GPU' in str(device_lib.list_local_devices())
 device_lib.list_local_devices()
 ```
-With driver settting for PyTorch device was not identified but `XLA_GPU`
+With pip3-installed-tensorflow-gpu and driver settting for PyTorch/TF device was not identified but `XLA_GPU`
 ```
 [name: "/device:CPU:0"
  device_type: "CPU"
