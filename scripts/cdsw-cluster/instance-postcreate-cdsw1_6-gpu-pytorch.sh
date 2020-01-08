@@ -29,8 +29,9 @@ yum install -y kernel-devel-3.10.0-693.5.2.el7.x86_64.rpm
 #NVIDIA K80 GPU
 #https://www.nvidia.co.jp/Download/driverResults.aspx/155532/jp
 #https://www.nvidia.com/Download/driverResults.aspx/155291/en-us
-#NVIDIA_DRIVER_VERSION="418.116.00"
-curl -OL hhttp://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run
+
+NVIDIA_DRIVER_VERSION="418.116.00"
+curl -OL http://us.download.nvidia.com/tesla/${NVIDIA_DRIVER_VERSION}/NVIDIA-Linux-x86_64-${NVIDIA_DRIVER_VERSION}.run
 chmod 755 NVIDIA-Linux-x86_64-${NVIDIA_DRIVER_VERSION}.run
 ./NVIDIA-Linux-x86_64-${NVIDIA_DRIVER_VERSION}.run -asq
 
