@@ -53,6 +53,8 @@ sudo docker push yoshiyukikono/cdsw-cuda:8
 # Compatibility
 ## TensorFlow
 
+Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-tf.sh`
+
 https://www.tensorflow.org/install/source#linux
 
 |Version|Python version| cuDNN| CUDA |
@@ -68,6 +70,9 @@ There was no `libcublas.so.10.0` under `/usr/local/cuda/lib64` but `libcudart.so
 Then, when I tried to install the upper version, I succeeded the test mentioned below.
 
 ## PyTorch
+
+Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-pytorch.sh`
+
 https://pytorch.org/
 
 |Version|Python version| cuDNN| CUDA |
@@ -91,6 +96,27 @@ assert cuda.is_available()
 assert cuda.device_count() > 0
 print(cuda.get_device_name(cuda.current_device()))
 ```
+```
+Tesla K80
+```
+
+GPU-Util tested with [SocialMediaSentimentAnalysis](https://github.com/YoshiyukiKono/SocialMediaSentimentAnalysis)
+
+```
+watch nvidia-smi
+```
+```bash
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 418.116.00   Driver Version: 418.116.00   CUDA Version: 10.1     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla K80           On   | 00000000:00:19.0 Off |                    0 |
+| N/A   66C    P0   135W / 149W |   1160MiB / 11441MiB |     92%      Default |
++-------------------------------+----------------------+----------------------+
+```
+
 #### TensorFlow
 ```
 #!pip3 install tensorflow-gpu==1.13.1
@@ -98,7 +124,29 @@ print(cuda.get_device_name(cuda.current_device()))
 from tensorflow.python.client import device_lib
 assert 'GPU' in str(device_lib.list_local_devices())
 device_lib.list_local_devices()
-
+```
+With driver settting for PyTorch device was not identified but `XLA_GPU`
+```
+[name: "/device:CPU:0"
+ device_type: "CPU"
+ memory_limit: 268435456
+ locality {
+ }
+ incarnation: 4236483043395514120, name: "/device:XLA_GPU:0"
+ device_type: "XLA_GPU"
+ memory_limit: 17179869184
+ locality {
+ }
+ incarnation: 16029027632270183099
+ physical_device_desc: "device: XLA_GPU device", name: "/device:XLA_CPU:0"
+ device_type: "XLA_CPU"
+ memory_limit: 17179869184
+ locality {
+ }
+ incarnation: 2554181575927509532
+ physical_device_desc: "device: XLA_CPU device"]
+```
+```
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train),(x_test, y_test) = mnist.load_data()
@@ -118,17 +166,4 @@ model.fit(x_train, y_train, epochs=5)
 model.evaluate(x_test, y_test)
 ```
 
-```
-watch nvidia-smi
-```
-```bash
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 418.116.00   Driver Version: 418.116.00   CUDA Version: 10.1     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|===============================+======================+======================|
-|   0  Tesla K80           On   | 00000000:00:19.0 Off |                    0 |
-| N/A   66C    P0   135W / 149W |   1160MiB / 11441MiB |     92%      Default |
-+-------------------------------+----------------------+----------------------+
-```
+
