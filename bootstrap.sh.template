@@ -1,4 +1,5 @@
 export CLUSTER_CONF=
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
+export INSTANCE_ENDDATE_TAG=`LANG=c date -v +7d +%m%d%Y`
 cloudera-director bootstrap-remote ${CLUSTER_CONF} --lp.remote.username=admin --lp.remote.password=admin --lp.remote.hostAndPort=localhost:7189
