@@ -46,6 +46,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 ```
 
+#### Docker commands
+```
+sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:8  . -f cuda.Dockerfile
+sudo docker login -u yoshiyukikono
+sudo docker push yoshiyukikono/cdsw-cuda:8
+```
+
 ### TensorFlow (TBD)
 
 CUDNN_VERSION: 7.5.1.10 -> 7.4.2.24
@@ -89,12 +96,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-mark hold libcudnn7 && \
     rm -rf /var/lib/apt/lists/*
 ```
-
-# Docker commands
+#### Docker commands
 ```
-sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:8  . -f cuda.Dockerfile
+sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:9  . -f cuda.Dockerfile
 sudo docker login -u yoshiyukikono
-sudo docker push yoshiyukikono/cdsw-cuda:8
+sudo docker push yoshiyukikono/cdsw-cuda:9
 ```
 
 # Compatibility
