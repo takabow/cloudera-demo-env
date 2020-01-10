@@ -178,14 +178,25 @@ watch nvidia-smi
 ### TensorFlow
 
 #### Setup
+
+##### Tensorflow
 ```
 pip3 install tensorflow==1.15
 ```
 
+##### Cuda Toolkit
 ```
 conda install cudatoolkit
 conda install cudnn
 ```
+
+**Referrence:**
+https://github.com/tensorflow/tensorflow/issues/26182
+
+> I just found this out myself, not sure if it's common knowledge, but got around this by doing
+>> conda install cudatoolkit
+>> conda install cudnn
+> I have cuda-10.1 installed on my box, this installed a local conda-only cuda-10.0. Obviously this is to just keep tensorflow working while waiting for better support.
 
 ```
 $ conda list | grep cud
