@@ -17,15 +17,10 @@ https://www.tensorflow.org/install/source#linux
 
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
+|tensorflow-1.**15.0**|2.7, 3.3-3.7|**7.4**|10.0|
 |tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|**7.4**|10.0|
 
-**Note:** 
-When using tensorflow_gpu-1.13.1, I faced the following error.
-```
-ImportError: libcublas.so.10.0
-```
-There was no `libcublas.so.10.0` under `/usr/local/cuda/lib64` but `libcudart.so.10.0`.
-Then, when I tried to install the upper version, I succeeded the test mentioned below.
+
 
 ### PyTorch
 
