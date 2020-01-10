@@ -1,9 +1,47 @@
 # Notes on building a custom CDSW engine image to enable GPU
 
+## Driver
+https://www.nvidia.com/Download/index.aspx?lang=en-us
+
+|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link | for | 
+|---|---|---|---|---|---|
+|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run| TensorFlow |
+|p2(.8xlarge)|K80|10.1|418.116.00| hhttp://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run| PyTorch |
+
+## Compatibility
+### TensorFlow
+
+Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-tf.sh`
+
+https://www.tensorflow.org/install/source#linux
+
+|Version|Python version| cuDNN| CUDA |
+|---|---|---|---|
+|tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|**7.4**|10.0|
+
+**Note:** 
+When using tensorflow_gpu-1.13.1, I faced the following error.
+```
+ImportError: libcublas.so.10.0
+```
+There was no `libcublas.so.10.0` under `/usr/local/cuda/lib64` but `libcudart.so.10.0`.
+Then, when I tried to install the upper version, I succeeded the test mentioned below.
+
+### PyTorch
+
+Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-pytorch.sh`
+
+https://pytorch.org/
+
+|Version|Python version| cuDNN| CUDA |
+|---|---|---|---|
+|PyTorch1.3|2.7, 3.5-3.7|-|10.1|
+
 ## Dockerfile
 
 ### PyTorch
 
+#### Docker File
 No change from a sample of Document
 
 [cuda.Dockerfile]
@@ -53,7 +91,9 @@ sudo docker login -u yoshiyukikono
 sudo docker push yoshiyukikono/cdsw-cuda:8
 ```
 
-### TensorFlow (TBD)
+### TensorFlow
+
+#### Docker File
 
 CUDNN_VERSION: 7.5.1.10 -> 7.4.2.24
 
@@ -103,47 +143,17 @@ sudo docker login -u yoshiyukikono
 sudo docker push yoshiyukikono/cdsw-cuda:9
 ```
 
-# Compatibility
-## TensorFlow
-
-Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-tf.sh`
-
-https://www.tensorflow.org/install/source#linux
-
-|Version|Python version| cuDNN| CUDA |
-|---|---|---|---|
-|tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|**7.4**|10.0|
-
-**Note:** 
-When using tensorflow_gpu-1.13.1, I faced the following error.
-```
-ImportError: libcublas.so.10.0
-```
-There was no `libcublas.so.10.0` under `/usr/local/cuda/lib64` but `libcudart.so.10.0`.
-Then, when I tried to install the upper version, I succeeded the test mentioned below.
-
-## PyTorch
-
-Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-pytorch.sh`
-
-https://pytorch.org/
-
-|Version|Python version| cuDNN| CUDA |
-|---|---|---|---|
-|PyTorch1.3|2.7, 3.5-3.7|-|10.1|
-
-## Driver
-https://www.nvidia.com/Download/index.aspx?lang=en-us
-
-|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link | for | 
-|---|---|---|---|---|---|
-|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run| TensorFlow |
-|p2(.8xlarge)|K80|10.1|418.116.00| hhttp://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run| PyTorch |
 ## Test
 
-#### PyTorch
+### PyTorch
+
+#### Setup
 ```
 !pip3 install torch
+```
+
+#### Check
+```
 from torch import cuda
 assert cuda.is_available()
 assert cuda.device_count() > 0
@@ -152,7 +162,7 @@ print(cuda.get_device_name(cuda.current_device()))
 ```
 Tesla K80
 ```
-
+#### Run
 GPU-Util tested with [SocialMediaSentimentAnalysis](https://github.com/YoshiyukiKono/SocialMediaSentimentAnalysis)
 
 ```
@@ -170,42 +180,105 @@ watch nvidia-smi
 +-------------------------------+----------------------+----------------------+
 ```
 
-#### TensorFlow
-https://github.com/tensorflow/tensorflow/issues/30748
+### TensorFlow
 
->I met the same problem on ubuntu 18.04, cuda 10.1 and Tensorflow 1.14.0. However, I uninstalled the pip version tensorflow using pip uninstall tensorflow-gpu and then use conda install -c anaconda tensorflow-gpu to install conda version, and it works for me. You can have a try. @AmitMY
+#### Setup
 ```
-!conda install tensorflow-gpu==1.14.0
+pip3 install tensorflow==1.15
 ```
+
 ```
-#!pip3 install tensorflow-gpu==1.13.1
-!pip3 install tensorflow-gpu==1.14.0
+conda install cudatoolkit
+conda install cudnn
+```
+
+```
+$ conda list | grep cud
+cudatoolkit               10.1.243             h6bb024c_0  
+cudnn                     7.6.4                cuda10.1_0 
+```
+
+```
+$ find / -name libcublas.so.10.0
+...
+/home/cdsw/.conda/pkgs/cudatoolkit-10.0.130-0/lib/libcublas.so.10.0
+...
+```
+
+
+(Project) Settings -> Engine -> Environment Variables
+- Name: `LD_LIBRARY_PATH`
+- Value: `.conda/pkgs/cudatoolkit-10.0.130-0/lib/:$LD_LIBRARY_PATH`
+
+
+
+#### Check
+```
 from tensorflow.python.client import device_lib
-assert 'GPU' in str(device_lib.list_local_devices())
 device_lib.list_local_devices()
 ```
-With pip3-installed-tensorflow-gpu and driver settting for PyTorch/TF device was not identified but `XLA_GPU`
+
 ```
+2020-01-10 01:25:59.748592: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2020-01-10 01:25:59.756874: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2300060000 Hz
+2020-01-10 01:25:59.758703: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5782050 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-01-10 01:25:59.758732: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2020-01-10 01:25:59.761661: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2020-01-10 01:25:59.944954: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-01-10 01:25:59.946237: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5837530 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2020-01-10 01:25:59.946269: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Tesla K80, Compute Capability 3.7
+2020-01-10 01:25:59.946483: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-01-10 01:25:59.947678: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: Tesla K80 major: 3 minor: 7 memoryClockRate(GHz): 0.8235
+pciBusID: 0000:00:1d.0
+2020-01-10 01:25:59.952930: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.0
+2020-01-10 01:25:59.990067: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0
+2020-01-10 01:26:00.029653: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10.0
+2020-01-10 01:26:00.111775: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10.0
+2020-01-10 01:26:00.159927: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10.0
+2020-01-10 01:26:00.188648: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10.0
 [name: "/device:CPU:0"
  device_type: "CPU"
  memory_limit: 268435456
  locality {
  }
- incarnation: 4236483043395514120, name: "/device:XLA_GPU:0"
- device_type: "XLA_GPU"
- memory_limit: 17179869184
- locality {
- }
- incarnation: 16029027632270183099
- physical_device_desc: "device: XLA_GPU device", name: "/device:XLA_CPU:0"
+ incarnation: 2402032456903103669, name: "/device:XLA_CPU:0"
  device_type: "XLA_CPU"
  memory_limit: 17179869184
  locality {
  }
- incarnation: 2554181575927509532
- physical_device_desc: "device: XLA_CPU device"]
+ incarnation: 2172456631417959673
+ physical_device_desc: "device: XLA_CPU device", name: "/device:XLA_GPU:0"
+ device_type: "XLA_GPU"
+ memory_limit: 17179869184
+ locality {
+ }
+ incarnation: 17231891383177235203
+ physical_device_desc: "device: XLA_GPU device", name: "/device:GPU:0"
+ device_type: "GPU"
+ memory_limit: 11326753997
+ locality {
+   bus_id: 1
+   links {
+   }
+ }
+ incarnation: 12765325159538489270
+ physical_device_desc: "device: 0, name: Tesla K80, pci bus id: 0000:00:1d.0, compute capability: 3.7"]2020-01-10 01:26:00.325691: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-01-10 01:26:00.325835: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-01-10 01:26:00.327116: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-01-10 01:26:00.328267: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-01-10 01:26:00.328324: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.0
+2020-01-10 01:26:00.331126: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-01-10 01:26:00.331158: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-01-10 01:26:00.331169: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-01-10 01:26:00.331465: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-01-10 01:26:00.332683: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2020-01-10 01:26:00.333878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/device:GPU:0 with 10802 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1d.0, compute capability: 3.7)
 ```
+#### Run
+
 ```
+import tensorflow as tf
 mnist = tf.keras.datasets.mnist
 
 (x_train, y_train),(x_test, y_test) = mnist.load_data()
@@ -225,4 +298,25 @@ model.fit(x_train, y_train, epochs=5)
 model.evaluate(x_test, y_test)
 ```
 
+```
+watch nvidia-smi
+```
 
+```
+Every 2.0s: nvidia-smi                                      Fri Jan 10 02:36:36 2020
+Fri Jan 10 02:36:36 2020
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 410.129      Driver Version: 410.129      CUDA Version: 10.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla K80           Off  | 00000000:00:17.0 Off |                    0 |
+| N/A   40C    P0    60W / 149W |  10960MiB / 11441MiB |     37%      Default |
++-------------------------------+----------------------+----------------------+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
++-----------------------------------------------------------------------------+
+```
