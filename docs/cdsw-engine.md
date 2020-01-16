@@ -365,3 +365,32 @@ Fri Jan 10 02:36:36 2020
 |=============================================================================|
 +-----------------------------------------------------------------------------+
 ```
+
+## Case of Tensorflow 2.1
+```
+pip3 install tensorflow==2.1
+```
+This time version is 10.1
+```
+2020-01-16 08:32:59.428528: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
+```
+```
+$ conda install cudatoolkit==10.1.243
+$ conda list
+# packages in environment at /home/cdsw/.conda/envs/python3.6:
+#
+cudatoolkit               10.1.243             h6bb024c_0
+$ find / -name libcublas.so.10
+...
+/home/cdsw/.conda/envs/python3.6/lib/libcublas.so.10
+/home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/libcublas.so.10
+...
+```
+
+```
+from tensorflow.python.client import device_lib
+device_lib.list_local_devices()
+```
+```
+2020-01-16 08:42:18.191722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1241] Created TensorFlow device (/device:GPU:0 with 10805 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1b.0, compute capability: 3.7)
+```
