@@ -225,6 +225,13 @@ Error message requests 10**.0** not 10.
 ```
 2020-01-16 08:00:37.194299: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/:/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
 ```
+##### Successful Install with `yoshiyukikono/cdsw-cuda:9`
+```
+$ conda install cudatoolkit==10.0.130
+$ conda list | grep cud
+cudatoolkit               10.0.130                      0  
+cudnn                     7.6.5                cuda10.0_0
+```
 
 (Project) Settings -> Engine -> Environment Variables
 - Name: `LD_LIBRARY_PATH`
