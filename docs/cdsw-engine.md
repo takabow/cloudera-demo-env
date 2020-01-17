@@ -89,7 +89,7 @@ sudo docker push yoshiyukikono/cdsw-cuda:8
 
 #### PyTorch
 ```
-!pip3 install torch
+pip3 install torch
 ```
 
 ### Check
