@@ -8,23 +8,25 @@ This image is available [here](https://hub.docker.com/r/yoshiyukikono/cdsw-cuda/
 ## Driver
 https://www.nvidia.com/Download/index.aspx?lang=en-us
 
-|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link | for | 
-|---|---|---|---|---|---|
-|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run| TensorFlow |
-|p2(.8xlarge)|K80|10.1|418.116.00| hhttp://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run| PyTorch |
+|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | File | 
+|---|---|---|---|---|
+|p2(.8xlarge)|K80|10.0|410.129| [NVIDIA-Linux-x86_64-410.129-diagnostic.run](http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run)|
 
-## Compatibility
-### TensorFlow
-
-Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-tf.sh`
+## Tensorflow Version
 
 https://www.tensorflow.org/install/source#linux
 
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
 |tensorflow-1.**15.0**|2.7, 3.3-3.7|**7.4**|10.0|
-|tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|**7.4**|10.0|
 
+## Environment Setup
+
+### OS Configuration
+
+Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-tf.sh`
+
+### Docker
 #### Docker File
 This file is based on the sample of [CDSW Document](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html#custom_cuda_engine)
 
@@ -79,18 +81,14 @@ sudo docker push yoshiyukikono/cdsw-cuda:9
 
 ## Test
 
-#### Setup
+### Insttall
 
-##### Tensorflow
+#### Tensorflow
 ```
 pip3 install tensorflow==1.15
 ```
 
 ##### Cuda Toolkit
-```
-conda install cudatoolkit
-conda install cudnn
-```
 
 **Referrence:**
 https://github.com/tensorflow/tensorflow/issues/26182
@@ -106,6 +104,7 @@ https://github.com/tensorflow/tensorflow/issues/26182
 
 ```
 $ conda install cudatoolkit==10.0.130
+$ conda install cudnn
 $ conda list | grep cud
 cudatoolkit               10.0.130                      0  
 cudnn                     7.6.5                cuda10.0_0
@@ -123,7 +122,9 @@ $ find / -name libcublas.so.10.0
 - Value: `.conda/pkgs/cudatoolkit-10.0.130-0/lib/:$LD_LIBRARY_PATH`
 
 
-#### Check
+### Check
+
+#### Availability
 ```
 from tensorflow.python.client import device_lib
 device_lib.list_local_devices()
@@ -204,8 +205,7 @@ pciBusID: 0000:00:1d.0
 2020-01-10 01:26:00.332683: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
 2020-01-10 01:26:00.333878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/device:GPU:0 with 10802 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1d.0, compute capability: 3.7)
 ```
-#### Run
-
+#### GPU Usage
 ```
 import tensorflow as tf
 mnist = tf.keras.datasets.mnist
