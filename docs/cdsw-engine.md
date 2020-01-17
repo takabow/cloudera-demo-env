@@ -3,28 +3,21 @@
 ## Driver
 https://www.nvidia.com/Download/index.aspx?lang=en-us
 
-|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | Link | for | 
-|---|---|---|---|---|---|
-|p2(.8xlarge)|K80|10.0|410.129| http://us.download.nvidia.com/tesla/410.129/NVIDIA-Linux-x86_64-410.129-diagnostic.run| TensorFlow |
-|p2(.8xlarge)|K80|10.1|418.116.00| hhttp://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run| PyTorch |
+|AWS Instance|NVIDIA Product|CUDA Toolkit| Driver Version | File |
+|---|---|---|---|---|
+|p2(.8xlarge)|K80|10.1|418.116.00| [NVIDIA-Linux-x86_64-418.116.00.run](http://us.download.nvidia.com/tesla/418.116.00/NVIDIA-Linux-x86_64-418.116.00.run)|
 
-## Compatibility
+## Library
 ### TensorFlow
-
-Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-tf.sh`
 
 https://www.tensorflow.org/install/source#linux
 
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
-|tensorflow-1.**15.0**|2.7, 3.3-3.7|**7.4**|10.0|
-|tensorflow_gpu-1.**14.0**|2.7, 3.3-3.7|**7.4**|10.0|
-
-
+|tensorflow-2.1.0|2.7, 3.3-3.7|7.6|10.1|
+|tensorflow-1.15.0|2.7, 3.3-3.7|7.4|10.0|
 
 ### PyTorch
-
-Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu-pytorch.sh`
 
 https://pytorch.org/
 
@@ -32,12 +25,16 @@ https://pytorch.org/
 |---|---|---|---|
 |PyTorch1.3|2.7, 3.5-3.7|-|10.1|
 
-## Dockerfile
+## Environment Setup
 
-### PyTorch
+### OS Configuration
+
+Instance Post Create Shell: `instance-postcreate-cdsw1_6-gpu.sh`
+
+### Docker
 
 #### Docker File
-No change from a sample of Document
+No change from the sample of [CDSW Document](https://docs.cloudera.com/documentation/data-science-workbench/1-6-x/topics/cdsw_gpu.html#custom_cuda_engine)
 
 [cuda.Dockerfile]
 ```
@@ -86,68 +83,18 @@ sudo docker login -u yoshiyukikono
 sudo docker push yoshiyukikono/cdsw-cuda:8
 ```
 
-### TensorFlow
+## Test: PyTorch
 
-#### Docker File
+### Install
 
-CUDNN_VERSION: 7.5.1.10 -> 7.4.2.24
-
-[cuda.Dockerfile]
-```
-FROM  docker.repository.cloudera.com/cdsw/engine:8
-
-RUN NVIDIA_GPGKEY_SUM=d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5 && \
-    NVIDIA_GPGKEY_FPR=ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80 && \
-    apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub && \
-    apt-key adv --export --no-emit-version -a $NVIDIA_GPGKEY_FPR | tail -n +5 > cudasign.pub && \
-    echo "$NVIDIA_GPGKEY_SUM  cudasign.pub" | sha256sum -c --strict - && rm cudasign.pub && \
-    echo "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/cuda.list
-
-ENV CUDA_VERSION 10.0.130
-LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
-
-ENV CUDA_PKG_VERSION 10-0=$CUDA_VERSION-1
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        cuda-cudart-$CUDA_PKG_VERSION && \
-    ln -s cuda-10.0 /usr/local/cuda && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN echo "/usr/local/cuda/lib64" >> /etc/ld.so.conf.d/cuda.conf && \
-    ldconfig
-
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
-
-ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
-
-RUN echo "deb http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list
-
-ENV CUDNN_VERSION 7.4.2.24
-LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-            libcudnn7=$CUDNN_VERSION-1+cuda10.0 && \
-    apt-mark hold libcudnn7 && \
-    rm -rf /var/lib/apt/lists/*
-```
-#### Docker commands
-```
-sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:9  . -f cuda.Dockerfile
-sudo docker login -u yoshiyukikono
-sudo docker push yoshiyukikono/cdsw-cuda:9
-```
-
-## Test
-
-### PyTorch
-
-#### Setup
+#### PyTorch
 ```
 !pip3 install torch
 ```
 
-#### Check
+### Check
+
+#### Availability
 ```
 from torch import cuda
 assert cuda.is_available()
@@ -157,8 +104,8 @@ print(cuda.get_device_name(cuda.current_device()))
 ```
 Tesla K80
 ```
-#### Run
-GPU-Util tested with [SocialMediaSentimentAnalysis](https://github.com/YoshiyukiKono/SocialMediaSentimentAnalysis)
+#### GPU Usage
+Tested using [SocialMediaSentimentAnalysis](https://github.com/YoshiyukiKono/SocialMediaSentimentAnalysis)
 
 ```
 watch nvidia-smi
@@ -175,20 +122,20 @@ watch nvidia-smi
 +-------------------------------+----------------------+----------------------+
 ```
 
-### TensorFlow
-
-#### Setup
+## Test: TensorFlow 1.15
+### Install
 
 ##### Tensorflow
 ```
 pip3 install tensorflow==1.15
 ```
 
+##### Error message without cudatoolkit
+```
+2020-01-16 08:00:37.194299: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/:/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
+```
+
 ##### Cuda Toolkit
-```
-conda install cudatoolkit
-conda install cudnn
-```
 
 **Referrence:**
 https://github.com/tensorflow/tensorflow/issues/26182
@@ -202,9 +149,11 @@ https://github.com/tensorflow/tensorflow/issues/26182
 > I have cuda-10.1 installed on my box, this installed a local conda-only cuda-10.0. Obviously this is to just keep tensorflow working while waiting for better support.
 
 ```
+$ conda install cudatoolkit==10.0.130
+$ conda install cudnn
 $ conda list | grep cud
-cudatoolkit               10.1.243             h6bb024c_0  
-cudnn                     7.6.4                cuda10.1_0 
+cudatoolkit               10.0.130                      0  
+cudnn                     7.6.5                cuda10.0_0
 ```
 
 ```
@@ -213,25 +162,6 @@ $ find / -name libcublas.so.10.0
 /home/cdsw/.conda/pkgs/cudatoolkit-10.0.130-0/lib/libcublas.so.10.0
 ...
 ```
-##### Bad Case with `yoshiyukikono/cdsw-cuda:9`
-```
-$ find / -name libcublas.so.10
-...
-/home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/libcublas.so.10
-/home/cdsw/.conda/pkgs/cudatoolkit-10.2.89-hfd86e86_0/lib/libcublas.so.10
-...
-```
-Error message requests 10**.0** not 10.
-```
-2020-01-16 08:00:37.194299: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/:/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
-```
-##### Successful Install with `yoshiyukikono/cdsw-cuda:9`
-```
-$ conda install cudatoolkit==10.0.130
-$ conda list | grep cud
-cudatoolkit               10.0.130                      0  
-cudnn                     7.6.5                cuda10.0_0
-```
 
 (Project) Settings -> Engine -> Environment Variables
 - Name: `LD_LIBRARY_PATH`
@@ -239,7 +169,9 @@ cudnn                     7.6.5                cuda10.0_0
 
 
 
-#### Check
+
+### Check
+#### Availability
 ```
 from tensorflow.python.client import device_lib
 device_lib.list_local_devices()
@@ -320,7 +252,7 @@ pciBusID: 0000:00:1d.0
 2020-01-10 01:26:00.332683: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:983] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
 2020-01-10 01:26:00.333878: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/device:GPU:0 with 10802 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1d.0, compute capability: 3.7)
 ```
-#### Run
+#### GPU Usage
 
 ```
 import tensorflow as tf
@@ -347,6 +279,9 @@ model.evaluate(x_test, y_test)
 watch nvidia-smi
 ```
 
+##### Terminal image opened from the workbench of CDSW
+During the time when GPU is being used you will find the percentage of Volatile GPU-Util is increaded.
+**Note:** GPU Processes will not apprear when using the terminal opened within CDSW(Docker) but it will appeare if you do the same on the OS.
 ```
 Every 2.0s: nvidia-smi                                      Fri Jan 10 02:36:36 2020
 Fri Jan 10 02:36:36 2020
@@ -366,14 +301,19 @@ Fri Jan 10 02:36:36 2020
 +-----------------------------------------------------------------------------+
 ```
 
-## Case of Tensorflow 2.1
+##  Test: TensorFlow 2.1
+### Install
+
+#### Tensorflow
 ```
 pip3 install tensorflow==2.1
 ```
-This time version is 10.1
+#####  Error message without cudatoolkit
+The version of required libraries is 10.1
 ```
 2020-01-16 08:32:59.428528: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
 ```
+#### cudatoolkit
 ```
 $ conda install cudatoolkit==10.1.243
 $ conda list
@@ -386,7 +326,9 @@ $ find / -name libcublas.so.10
 /home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/libcublas.so.10
 ...
 ```
+### Check
 
+#### Availability
 ```
 from tensorflow.python.client import device_lib
 device_lib.list_local_devices()
