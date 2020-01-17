@@ -127,7 +127,7 @@ watch nvidia-smi
 
 ##### Tensorflow
 ```
-pip3 install tensorflow==1.15
+$ pip3 install tensorflow==1.15
 ```
 
 ##### Error message without cudatoolkit
@@ -148,30 +148,33 @@ https://github.com/tensorflow/tensorflow/issues/26182
 
 > I have cuda-10.1 installed on my box, this installed a local conda-only cuda-10.0. Obviously this is to just keep tensorflow working while waiting for better support.
 
+Install cudatoolkit but do not necessarily install cudnn.
+
 ```
 $ conda install cudatoolkit==10.0.130
-$ conda install cudnn
 $ conda list | grep cud
 cudatoolkit               10.0.130                      0  
-cudnn                     7.6.5                cuda10.0_0
 ```
 
 ```
 $ find / -name libcublas.so.10.0
 ...
+/home/cdsw/.conda/envs/python3.6/lib/libcublas.so.10.0
 /home/cdsw/.conda/pkgs/cudatoolkit-10.0.130-0/lib/libcublas.so.10.0
 ...
 ```
 
 (Project) Settings -> Engine -> Environment Variables
 - Name: `LD_LIBRARY_PATH`
-- Value: `.conda/pkgs/cudatoolkit-10.0.130-0/lib/:$LD_LIBRARY_PATH`
+- Value: `.conda/envs/python3.6/lib/:$LD_LIBRARY_PATH`
 
 
 
 
 ### Check
 #### Availability
+
+##### Test Code
 ```
 from tensorflow.python.client import device_lib
 device_lib.list_local_devices()
@@ -254,6 +257,7 @@ pciBusID: 0000:00:1d.0
 ```
 #### GPU Usage
 
+##### Test Code
 ```
 import tensorflow as tf
 mnist = tf.keras.datasets.mnist
@@ -275,11 +279,12 @@ model.fit(x_train, y_train, epochs=5)
 model.evaluate(x_test, y_test)
 ```
 
+##### Command
 ```
-watch nvidia-smi
+$ watch nvidia-smi
 ```
 
-##### Terminal image opened from the workbench of CDSW
+###### Terminal image opened from the workbench of CDSW
 During the time when GPU is being used you will find the percentage of Volatile GPU-Util is increaded.
 **Note:** GPU Processes will not apprear when using the terminal opened within CDSW(Docker) but it will appeare if you do the same on the OS.
 ```
@@ -306,7 +311,7 @@ Fri Jan 10 02:36:36 2020
 
 #### Tensorflow
 ```
-pip3 install tensorflow==2.1
+$ pip3 install tensorflow==2.1
 ```
 #####  Error message without cudatoolkit
 The version of required libraries is 10.1
