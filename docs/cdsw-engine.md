@@ -77,10 +77,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 ```
 
 #### Docker commands
-```
-sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:8  . -f cuda.Dockerfile
-sudo docker login -u yoshiyukikono
-sudo docker push yoshiyukikono/cdsw-cuda:8
+```bash
+$ sudo docker build --no-cache --network host -t yoshiyukikono/cdsw-cuda:8  . -f cuda.Dockerfile
+$ sudo docker login -u yoshiyukikono
+$ sudo docker push yoshiyukikono/cdsw-cuda:8
 ```
 
 ## Test: PyTorch
@@ -88,27 +88,27 @@ sudo docker push yoshiyukikono/cdsw-cuda:8
 ### Install
 
 #### PyTorch
-```
-pip3 install torch
+```bash
+$ pip3 install torch
 ```
 
 ### Check
 
 #### Availability
-```
+```python
 from torch import cuda
 assert cuda.is_available()
 assert cuda.device_count() > 0
 print(cuda.get_device_name(cuda.current_device()))
 ```
-```
+```bash
 Tesla K80
 ```
 #### GPU Usage
 Tested using [SocialMediaSentimentAnalysis](https://github.com/YoshiyukiKono/SocialMediaSentimentAnalysis)
 
-```
-watch nvidia-smi
+```bash
+$ watch nvidia-smi
 ```
 ```bash
 +-----------------------------------------------------------------------------+
@@ -126,12 +126,12 @@ watch nvidia-smi
 ### Install
 
 ##### Tensorflow
-```
+```bash
 $ pip3 install tensorflow==1.15
 ```
 
 ##### Error message without cudatoolkit
-```
+```bash
 2020-01-16 08:00:37.194299: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcublas.so.10.0'; dlerror: libcublas.so.10.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /home/cdsw/.conda/pkgs/cudatoolkit-10.1.243-h6bb024c_0/lib/:/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
 ```
 
@@ -150,13 +150,13 @@ https://github.com/tensorflow/tensorflow/issues/26182
 
 Install cudatoolkit but do not necessarily install cudnn.
 
-```
+```bash
 $ conda install cudatoolkit==10.0.130
 $ conda list | grep cud
 cudatoolkit               10.0.130                      0  
 ```
 
-```
+```bash
 $ find / -name libcublas.so.10.0
 ...
 /home/cdsw/.conda/envs/python3.6/lib/libcublas.so.10.0
@@ -175,14 +175,13 @@ $ find / -name libcublas.so.10.0
 #### Availability
 
 ##### Test Code
-```
+```python
 from tensorflow.python.client import device_lib
 device_lib.list_local_devices()
 ```
 When you do not restart the workbench, you would face the following error.
 After you stop and start the workbench, you would not meet the same error again.
-```
-from tensorflow.python.client import device_lib
+```bash
 RuntimeError: module compiled against API version 0xc but this version of numpy is 0xb
 RuntimeError                              Traceback (most recent call last)
 RuntimeError: module compiled against API version 0xc but this version of numpy is 0xb
@@ -198,7 +197,7 @@ ImportError: numpy.core.umath failed to import
 Engine exited with status 134.
 ```
 
-```
+```bash
 2020-01-10 01:25:59.748592: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
 2020-01-10 01:25:59.756874: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2300060000 Hz
 2020-01-10 01:25:59.758703: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x5782050 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
@@ -258,7 +257,7 @@ pciBusID: 0000:00:1d.0
 #### GPU Usage
 
 ##### Test Code
-```
+```python
 import tensorflow as tf
 mnist = tf.keras.datasets.mnist
 
@@ -280,14 +279,14 @@ model.evaluate(x_test, y_test)
 ```
 
 ##### Command
-```
+```bash
 $ watch nvidia-smi
 ```
 
 ###### Terminal image opened from the workbench of CDSW
 During the time when GPU is being used you will find the percentage of Volatile GPU-Util is increaded.
 **Note:** GPU Processes will not apprear when using the terminal opened within CDSW(Docker) but it will appeare if you do the same on the OS.
-```
+```bash
 Every 2.0s: nvidia-smi                                      Fri Jan 10 02:36:36 2020
 Fri Jan 10 02:36:36 2020
 +-----------------------------------------------------------------------------+
@@ -310,16 +309,16 @@ Fri Jan 10 02:36:36 2020
 ### Install
 
 #### Tensorflow
-```
+```bash
 $ pip3 install tensorflow==2.1
 ```
 #####  Error message without cudatoolkit
 The version of required libraries is 10.1
-```
+```bash
 2020-01-16 08:32:59.428528: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'libcudart.so.10.1'; dlerror: libcudart.so.10.1: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/nvidia/lib:/usr/local/cuda/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/opt/cloudera/parcels/CDH-6.3.2-1.cdh6.3.2.p0.1605554/lib/hadoop/lib/native
 ```
 #### cudatoolkit
-```
+```bash
 $ conda install cudatoolkit==10.1.243
 $ conda list
 # packages in environment at /home/cdsw/.conda/envs/python3.6:
@@ -334,10 +333,10 @@ $ find / -name libcublas.so.10
 ### Check
 
 #### Availability
-```
+```python
 from tensorflow.python.client import device_lib
 device_lib.list_local_devices()
 ```
-```
+```bash
 2020-01-16 08:42:18.191722: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1241] Created TensorFlow device (/device:GPU:0 with 10805 MB memory) -> physical GPU (device: 0, name: Tesla K80, pci bus id: 0000:00:1b.0, compute capability: 3.7)
 ```
