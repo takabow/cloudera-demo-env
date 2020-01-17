@@ -18,7 +18,7 @@ https://www.tensorflow.org/install/source#linux
 
 |Version|Python version| cuDNN| CUDA |
 |---|---|---|---|
-|tensorflow-1.**15.0**|2.7, 3.3-3.7|**7.4**|10.0|
+|tensorflow-1.15.0|2.7, 3.3-3.7|7.4|10.0|
 
 ## Environment Setup
 
