@@ -14,13 +14,13 @@ This is for Demo purposes only. Don't use for production.
     - `c6-ha-cluster.conf`  (Cloudera Enterprise 6.3.0 Trial)
   - Cloudera Data Science Workbench (Secure) : CDH Secure Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
     - `c5-cdsw-secure-cluster.conf` (CDSW 1.6.0 Trial + Cloudera Enterprise 5.16.1 Trial)
-    - `c6_3_1-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.1 Trial)
+    - `c6_3_2-cdsw1_6_1-secure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
   
   - Cloudera Data Science Workbench : CDH Cluster + Cloudera Data Science Workbench + DNS configuration for CDSW
-    - `c6_3_1-cdsw1_6_1-unsecure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.1 Trial)
+    - `c6_3_2-cdsw1_6_1-unsecure.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
  
   - Cloudera Data Science Workbench with GPU : CDH Cluster (with minimum features) + Cloudera Data Science Workbench with GPU settings + DNS configuration for CDSW
-    - `c6_3_1-cdsw1_6_1-gpu-minimum.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.1 Trial)
+    - `c6_3_2-cdsw1_6_1-gpu-minimum.conf` (CDSW 1.6.1 Trial + Cloudera Enterprise 6.3.2 Trial)
   
 - I only tested on following environments
   - AWS ap-northeast-1 (Tokyo) region
