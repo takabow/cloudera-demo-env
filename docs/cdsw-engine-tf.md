@@ -81,7 +81,7 @@ sudo docker push yoshiyukikono/cdsw-cuda:9
 
 ## Test
 
-### Insttall
+### Install
 
 #### Tensorflow
 ```
