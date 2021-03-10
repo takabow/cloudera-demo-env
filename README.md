@@ -1,3 +1,5 @@
+## ⚠ Since the CDH repository only be accessible via [paywall](https://www.cloudera.com/downloads/paywall-expansion.html) after Feb 2021, these automatic deployment scripts do not work.
+
 # Cloudera Demo Environment
 Install scripts of Cloudera Demo cluster on the cloud environment.
 This is for Demo purposes only. Don't use for production.
